@@ -23,6 +23,7 @@ abstract class AbstractInjectedActivity<Data, T : BaseViewModel<Data>> : AppComp
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+
         viewModel.liveData.observe(this, Observer { resource ->
             resource?.let {
                 handleDataState(it)
