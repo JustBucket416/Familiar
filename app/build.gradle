@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    def appDependencies = rootProject.ext.appDependencies
+
+    implementation project(':domain')
+    implementation project(':data')
+
+    implementation appDependencies.appCompatV7
+    implementation appDependencies.supportDesign
+    implementation appDependencies.cardView
+    implementation appDependencies.supportRecyclerView
+    implementation appDependencies.androidSupportV4
+    implementation appDependencies.constraintLayout
+    implementation appDependencies.coroutinesAndroid
+
+    implementation appDependencies.ktx
+    implementation appDependencies.viewModelKtx
+
+    implementation 'me.saket:inboxrecyclerview:1.0.0-rc1'
+
+    //Image loading
+    implementation appDependencies.glide
+
+    //di
+    implementation appDependencies.dagger
+    implementation appDependencies.daggerSupport
+    kapt appDependencies.daggerProcessor
+    kapt appDependencies.daggerCompiler
+
+    //Lifecycle
+    implementation appDependencies.lifecycle
+    kapt appDependencies.lifecycleCompiler
+}

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Reminder</string>
+    <string name="error_loading_master_models">Error loading data</string>
+    <string name="error_no_content_found">No saved content found</string>
+</resources>
