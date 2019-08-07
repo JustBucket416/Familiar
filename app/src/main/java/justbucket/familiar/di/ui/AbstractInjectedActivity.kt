@@ -38,9 +38,9 @@ abstract class AbstractInjectedActivity<Data, T : BaseViewModel<Data>> : AppComp
         }
     }
 
-    abstract fun setupForError(message: String?)
+    protected abstract fun setupForError(message: String?)
 
-    abstract fun setupForSuccess(data: Data?)
+    protected abstract fun setupForSuccess(data: Data?)
 
-    abstract fun setupForLoading()
+    protected abstract fun setupForLoading()
 }

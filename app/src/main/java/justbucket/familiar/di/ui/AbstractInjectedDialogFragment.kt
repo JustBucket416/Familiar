@@ -37,8 +37,8 @@ abstract class AbstractInjectedDialogFragment<Data, T : BaseViewModel<Data>> : D
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? = inflater.inflate(layoutId, container, false)
 
     private fun handleDataState(resource: Resource<Data>) {
@@ -49,9 +49,9 @@ abstract class AbstractInjectedDialogFragment<Data, T : BaseViewModel<Data>> : D
         }
     }
 
-    abstract fun setupForError(message: String?)
+    protected abstract fun setupForError(message: String?)
 
-    abstract fun setupForSuccess(data: Data?)
+    protected abstract fun setupForSuccess(data: Data?)
 
-    abstract fun setupForLoading()
+    protected abstract fun setupForLoading()
 }
