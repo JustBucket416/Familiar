@@ -46,9 +46,4 @@ class MasterViewModel(
         )
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        liveData.postValue(Resource.error("onCleared"))
-    }
-
 }

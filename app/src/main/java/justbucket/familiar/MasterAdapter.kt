@@ -26,7 +26,7 @@ class MasterAdapter(private val manager: ExtensionManager) :
 
     override fun onBindViewHolder(holder: MasterHolder, position: Int) {
         val model = getItem(position)
-        val configurator = manager.extensionHolders[model.extensionName].configurator
+        val configurator = manager.getExtensions()[model.extensionName].configurator
         configurator.configureMasterModel(holder.itemView, model)
     }
 

@@ -19,7 +19,7 @@ class DetailRepositoryImpl(
 
     override suspend fun loadModelDetails(modelId: Long) = try {
         val entity = dao.getDetailEntityById(modelId)
-        val creator = extensionManager.extensionHolders[entity.extensionName].creator
+        val creator = extensionManager.getExtensions()[entity.extensionName].creator
         Either.Right(creator.createDetailModel(entity.modelContent))
     } catch (e: MalformedJsonException) {
         Either.Left(Failure.DBFailure)

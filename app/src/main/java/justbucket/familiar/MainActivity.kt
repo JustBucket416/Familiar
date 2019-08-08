@@ -2,7 +2,6 @@ package justbucket.familiar
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import justbucket.familiar.content.extension.model.MasterModel
 import justbucket.familiar.di.ui.AbstractInjectedActivity
@@ -11,7 +10,7 @@ import justbucket.familiar.viewmodel.MasterViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AbstractInjectedActivity<Set<MasterModel>, MasterViewModel>() {
+class MainActivity : AbstractInjectedActivity<Set<MasterModel>>() {
 
     private lateinit var masterAdapter: MasterAdapter
 
@@ -19,7 +18,7 @@ class MainActivity : AbstractInjectedActivity<Set<MasterModel>, MasterViewModel>
     lateinit var exManager: ExtensionManager
 
     override val viewModel: MasterViewModel
-        get() = ViewModelProviders.of(this, viewModelFactory)[MasterViewModel::class.java]
+        get() = provider[MasterViewModel::class.java]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -24,7 +24,7 @@ class MasterRepositoryImpl(
         val result: Either<Failure.DBFailure, MutableSet<MasterModel>> = Either.Right(mutableSetOf())
         try {
             dao.getAllMasterEntities().forEach {
-                val creator = extensionManager.extensionHolders[it.extensionName].creator
+                val creator = extensionManager.getExtensions()[it.extensionName].creator
                 val model = creator.createMasterModel(it.modelContent)
                 result.append(Either.Right(model)) { this::add }
             }

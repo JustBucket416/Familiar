@@ -31,7 +31,7 @@ class SearchRepositoryImpl(
     override suspend fun searchByQuery(query: String): Either<Failure.NetworkFailure, Set<SearchModel>> {
         val result: Either<Failure.NetworkFailure, MutableSet<SearchModel>> = Either.Right(mutableSetOf())
         try {
-            for (extensionHolder in extensionManager.extensionHolders) {
+            for (extensionHolder in extensionManager.getExtensions()) {
                 val uri = extensionHolder.value.locator.getSearchModelsByQuery(query)
                 val either = RemoteHelper.loadFromRemote(URL(uri.toString()).openConnection() as HttpURLConnection)
                 result.collect(either.flatMap { json ->
@@ -45,13 +45,13 @@ class SearchRepositoryImpl(
     }
 
     override suspend fun addContentEntry(searchModel: SearchModel): Either<Failure, Long> {
-        val extension = extensionManager.extensionHolders[searchModel.extensionName]
+        val extension = extensionManager.getExtensions()[searchModel.extensionName]
         return try {
             val masterEither = RemoteHelper.loadFromRemote(
                 URL(extension.locator.getMasterForSearch(searchModel).toString()).openConnection() as HttpURLConnection
             ).flatMap {
                 val masterModel =
-                    extensionManager.extensionHolders[searchModel.extensionName].creator.createMasterModel(it)
+                    extension.creator.createMasterModel(it)
                 val id = masterDao.insertMasterEntity(
                     MasterEntity(
                         null, extension.creator.extensionName,
@@ -67,7 +67,7 @@ class SearchRepositoryImpl(
                     ).openConnection() as HttpURLConnection
                 ).flatMap {
                     val detailModel =
-                        extensionManager.extensionHolders[searchModel.extensionName].creator.createDetailModel(it)
+                        extension.creator.createDetailModel(it)
                     val id = detailDao.insertDetailEntity(
                         DetailEntity(
                             masterEither.b, extension.creator.extensionName,

@@ -3,6 +3,8 @@ package justbucket.familiar.di.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import dagger.android.AndroidInjection
 import justbucket.familiar.di.viewmodel.ViewModelFactory
 import justbucket.familiar.resource.Resource
@@ -13,9 +15,11 @@ import javax.inject.Inject
 /**
  * @author JustBucket on 2019-07-30
  */
-abstract class AbstractInjectedActivity<Data, T : BaseViewModel<Data>> : AppCompatActivity() {
+abstract class AbstractInjectedActivity<Data> : AppCompatActivity() {
 
-    protected abstract val viewModel: T
+    protected abstract val viewModel: BaseViewModel<Data>
+    protected lateinit var provider: ViewModelProvider
+        private set
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -23,6 +27,7 @@ abstract class AbstractInjectedActivity<Data, T : BaseViewModel<Data>> : AppComp
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+        provider = ViewModelProviders.of(this, viewModelFactory)
 
         viewModel.liveData.observe(this, Observer { resource ->
             resource?.let {
