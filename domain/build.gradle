@@ -1,35 +1,9 @@
-apply plugin: "com.android.library"
-
-apply plugin: 'kotlin-android'
-
-
-android {
-    def globalConfiguration = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
-    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
-
-    defaultConfig {
-        minSdkVersion globalConfiguration["androidMinSdkVersion"]
-        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-}
-
-dependencies {
-    def domainDependencies = rootProject.ext.domainDependencies
-
-    implementation domainDependencies.coroutines
-    api project(':extension')
-}
+apply plugin: 'kotlin'
 
 sourceCompatibility = "8"
 targetCompatibility = "8"
+
+dependencies {
+    api "justbucket.familiar:extension:6.6.6"
+    implementation Kotlin.coroutines
+}

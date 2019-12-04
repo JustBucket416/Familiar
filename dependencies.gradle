@@ -1,109 +1,58 @@
+//Androidx
+def ANDROIDX_VERSION = '2.2.0-rc02'
+def ANDROIDX_SUPPORT = '1.1.0'
+def ANDROIDX_CONSTRAINT = '2.0.0-beta3'
+def ANDROIDX_MATERIAL = '1.2.0-alpha02'
+def ANDROIDX_KTX = '1.1.0'
+def ANDROIDX_ROOM = '2.2.2'
+def ANDROIDX_ROOM_COMPILER = '1.1.1'
+
+//Libraries
+def JAVAX_INJECT_VERSION = '1'
+def RETROFIT_VERSION = '2.6.2'
+def GSON_VERSION = '2.8.6'
+def GLIDE_VERSION = '4.10.0'
+def DAGGER_VERSION = '2.25.2'
+
+//Kotlin
+def COROUTINES_VERSION = '1.3.2'
+
 ext {
-    //Android
-    androidBuildToolsVersion = '28.0.3'
-    androidMinSdkVersion = 22
-    androidTargetSdkVersion = 25
-    androidCompileSdkVersion = 28
+    ANDROID_BUILD_TOOLS_VERSION = '28.0.3'
+    ANDROID_MIN_SDK_VERSION = 21
+    ANDROID_TARGET_SDK_VERSION = 25
+    ANDROID_COMPILE_SDK_VERSION = 28--
 
-    //Androidx
-    androidXversion = '2.2.0-alpha02'
-    androidXtestVersion = '1.1.1'
-    androidXespresso = '3.1.0'
-    androidXsupport = '1.0.0'
-    androidXconstraint = '2.0.0-alpha3'
-    androidXmaterial = '1.0.0-rc01'
-    androidXktx = '1.0.1'
-    androidXroom = '2.2.0-alpha01'
-    androidXroomCompiler = '1.1.1'
-
-    //Libraries
-    javaxInjectVersion = '1'
-    retrofitVersion = '2.6.0'
-    gsonVersion = '2.8.5'
-    glideVersion = '4.9.0'
-    coroutinesVersion = '1.3.0-M2'
-    daggerVersion = '2.23.2'
-
-    //Testing
-    jUnitVersion = '4.12'
-    assertJVersion = '3.8.0'
-    mockitoKotlinVersion = '2.0.0-RC1'
-    espressoVersion = '3.0.2'
-    robolectricVersion = '3.4.2'
-    mockitoVersion = '2.21.0'
-    mockitoAndroidVersion = '2.21.0'
-    androidSupportRunnerVersion = '1.0.2'
-    androidSupportRulesVersion = '1.0.0'
-    runnerVersion = '0.5'
-
-    domainDependencies = [
-            kotlin     : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ext.kotlin_version",
-            coroutines : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
-            javaxInject: "javax.inject:javax.inject:$javaxInjectVersion"
-    ]
-
-    domainTestDependencies = [
-            junit  : "junit:junit:$jUnitVersion",
-            mockito: "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    Kotlin = [
+            stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$ext.kotlin_version",
+            coroutines: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINES_VERSION",
     ]
 
     dataDependencies = [
-            kotlin           : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ext.kotlin_version",
-            coroutines       : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
-            room             : "androidx.room:room-runtime:$androidXroom",
-            roomCompiler     : "android.arch.persistence.room:compiler:$androidXroomCompiler",
-            retrofit         : "com.squareup.retrofit2:retrofit:$retrofitVersion",
-            retrofitConverter: "com.squareup.retrofit2:converter-gson:$retrofitVersion",
-            gson             : "com.google.code.gson:gson:$gsonVersion",
-            javaxInject      : "javax.inject:javax.inject:${javaxInjectVersion}"
-    ]
-
-    dataTestDependencies = [
-            junit         : "junit:junit:$jUnitVersion",
-            mockito       : "org.mockito:mockito-core:$mockitoVersion",
-            mockitoKotlin : "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion",
-            mockitoAndroid: "org.mockito:mockito-android:$mockitoAndroidVersion",
-            roomTesting   : "androidx.room:room-testing:$androidXversion",
-            supportRunner : "androidx.test:runner:$androidXtestVersion",
-            espresso      : "androidx.test.espresso:espresso-core:$androidXespresso"
-    ]
-
-    presentationDependencies = [
-            kotlin          : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ext.kotlin_version",
-            coroutines      : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
-            androidSupportV4: "androidx.legacy:legacy-support-v4:$androidXsupport",
-            lifecycle       : "androidx.lifecycle:lifecycle-extensions:$androidXversion",
+            room             : "androidx.room:room-runtime:$ANDROIDX_ROOM",
+            roomCompiler     : "android.arch.persistence.room:compiler:$ANDROIDX_ROOM_COMPILER",
+            retrofit         : "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION",
+            retrofitConverter: "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION",
+            gson             : "com.google.code.gson:gson:$GSON_VERSION",
+            javaxInject      : "javax.inject:javax.inject:$JAVAX_INJECT_VERSION"
     ]
 
     appDependencies = [
-            kotlin             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ext.kotlin_version",
-            glide              : "com.github.bumptech.glide:glide:$glideVersion",
-            androidSupportV4   : "androidx.legacy:legacy-support-v4:$androidXsupport",
-            cardView           : "androidx.cardview:cardview:$androidXsupport",
-            appCompatV7        : "androidx.appcompat:appcompat:$androidXsupport",
-            supportRecyclerView: "androidx.recyclerview:recyclerview:$androidXsupport",
-            constraintLayout   : "androidx.constraintlayout:constraintlayout:$androidXconstraint",
-            supportDesign      : "com.google.android.material:material:$androidXmaterial",
-            coroutinesAndroid  : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion",
-            ktx                : "androidx.core:core-ktx:$androidXktx",
-            viewModelKtx       : "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidXversion",
-            lifecycle          : "androidx.lifecycle:lifecycle-extensions:$androidXversion",
-            lifecycleCompiler  : "androidx.lifecycle:lifecycle-compiler:$androidXversion",
-            dagger             : "com.google.dagger:dagger-android:$daggerVersion",
-            daggerSupport      : "com.google.dagger:dagger-android-support:$daggerVersion",
-            daggerProcessor    : "com.google.dagger:dagger-android-processor:$daggerVersion",
-            daggerCompiler     : "com.google.dagger:dagger-compiler:$daggerVersion"
+            glide              : "com.github.bumptech.glide:glide:$GLIDE_VERSION",
+            cardView           : "androidx.cardview:cardview:1.0.0",
+            appCompatV7        : "androidx.appcompat:appcompat:$ANDROIDX_SUPPORT",
+            supportRecyclerView: "androidx.recyclerview:recyclerview:$ANDROIDX_SUPPORT",
+            constraintLayout   : "androidx.constraintlayout:constraintlayout:$ANDROIDX_CONSTRAINT",
+            supportDesign      : "com.google.android.material:material:$ANDROIDX_MATERIAL",
+            coroutinesAndroid  : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINES_VERSION",
+            ktx                : "androidx.core:core-ktx:$ANDROIDX_KTX",
+            viewModelKtx       : "androidx.lifecycle:lifecycle-viewmodel-ktx:$ANDROIDX_VERSION",
+            lifecycle          : "androidx.lifecycle:lifecycle-extensions:$ANDROIDX_VERSION",
+            lifecycleCompiler  : "androidx.lifecycle:lifecycle-compiler:$ANDROIDX_VERSION",
+            dagger             : "com.google.dagger:dagger-android:$DAGGER_VERSION",
+            daggerSupport      : "com.google.dagger:dagger-android-support:$DAGGER_VERSION",
+            daggerProcessor    : "com.google.dagger:dagger-android-processor:$DAGGER_VERSION",
+            daggerCompiler     : "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     ]
-
-    appTestDependencies = [
-            junit         : "junit:junit:$jUnitVersion",
-            kotlinJUnit   : "org.jetbrains.kotlin:kotlin-test-junit:$ext.kotlin_version",
-            assertj       : "org.assertj:assertj-core:$assertJVersion",
-            mockito       : "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion",
-            supportRunner : "androidx.test:runner:$androidXtestVersion",
-            mockitoAndroid: "org.mockito:mockito-android:$mockitoAndroidVersion",
-            espressoCore  : "androidx.test.espresso:espresso-core:$androidXespresso",
-    ]
-
 
 }
