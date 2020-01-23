@@ -34,6 +34,7 @@ class ViewModelModule {
 
     @Singleton
     @Provides
+    @JvmSuppressWildcards
     fun bindViewModelFactory(creators: Map<Class<out ViewModel>, Provider<ViewModel>>): ViewModelProvider.Factory =
         ViewModelFactory(creators)
 }

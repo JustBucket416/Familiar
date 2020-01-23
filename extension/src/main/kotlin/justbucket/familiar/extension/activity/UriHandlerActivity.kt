@@ -1,16 +1,18 @@
-package justbucket.familiar.content.extension.activity
+package justbucket.familiar.extension.activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
-import justbucket.familiar.content.extension.constants.EXTENSION_SHARE_ACTION
+import justbucket.familiar.extension.constants.EXTENSION_SHARE_ACTION
 import kotlin.system.exitProcess
 
 /**
  * @author JustBucket on 2019-07-22
  */
+@SuppressLint("Registered")
 open class UriHandlerActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package justbucket.familiar.content.extension.exception
+package justbucket.familiar.extension.exception
 
 /**
  * Base Class for handling errors/failures/exceptions.

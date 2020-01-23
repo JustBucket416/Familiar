@@ -1,7 +1,1 @@
-include ':app', ':domain', ':data'
-
-includeBuild('extension') {
-    dependencySubstitution {
-        substitute module('justbucket.familiar:extension') with project(':')
-    }
-}
+include ':app', ':domain', ':data', ':extension'

@@ -1,8 +1,6 @@
 package justbucket.familiar.domain.utils
 
 import android.util.Log
-import justbucket.familiar.content.extension.BuildConfig
-import justbucket.familiar.domain.BuildConfig
 
 /**
  * @author JustBucket on 2019-07-22
@@ -10,42 +8,42 @@ import justbucket.familiar.domain.BuildConfig
 
 var IS_LOGGING_ENABLED = false
 
-fun v(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logV(tag: String, message: String? = null, cause: Throwable? = null) = log(
     Level.VERBOSE,
     tag,
     message,
     cause
 )
 
-fun d(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logD(tag: String, message: String? = null, cause: Throwable? = null) = log(
     Level.DEBUG,
     tag,
     message,
     cause
 )
 
-fun i(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logI(tag: String, message: String? = null, cause: Throwable? = null) = log(
     Level.INFO,
     tag,
     message,
     cause
 )
 
-fun w(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logW(tag: String, message: String? = null, cause: Throwable? = null) = log(
     Level.WARN,
     tag,
     message,
     cause
 )
 
-fun e(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logE(tag: String, message: String? = null, cause: Throwable? = null) = log(
     Level.ERROR,
     tag,
     message,
     cause
 )
 
-fun wtf(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logWTF(tag: String, message: String? = null, cause: Throwable? = null) = log(
     Level.WTF,
     tag,
     message,

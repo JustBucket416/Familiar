@@ -1,10 +1,10 @@
 package justbucket.familiar.domain.feature.master
 
-import justbucket.familiar.content.extension.exception.Failure
-import justbucket.familiar.content.extension.functional.Either
-import justbucket.familiar.content.extension.model.MasterModel
 import justbucket.familiar.domain.repository.MasterRepository
 import justbucket.familiar.domain.usecase.UseCase
+import justbucket.familiar.extension.exception.Failure
+import justbucket.familiar.extension.functional.Either
+import justbucket.familiar.extension.model.MasterModel
 import kotlin.coroutines.CoroutineContext
 
 /**

@@ -34,28 +34,16 @@ dependencies {
     implementation project(':domain')
     implementation project(':data')
 
-    implementation appDependencies.appCompatV7
-    implementation appDependencies.supportDesign
-    implementation appDependencies.cardView
-    implementation appDependencies.supportRecyclerView
-    implementation appDependencies.constraintLayout
-    implementation appDependencies.coroutinesAndroid
-
-    implementation appDependencies.ktx
-    implementation appDependencies.viewModelKtx
-
     implementation 'me.saket:inboxrecyclerview:2.0.0-beta3'
 
-    //Image loading
-    implementation appDependencies.glide
+    implementation Kotlin.coroutinesAndroid
+    implementation libsGroup.dagger
+    implementation libsGroup.android
+    implementation libsGroup.jetpack
+    implementation libs.glide
+    implementation libs.roomRuntime
 
-    //di
-    implementation appDependencies.dagger
-    implementation appDependencies.daggerSupport
-    kapt appDependencies.daggerProcessor
-    kapt appDependencies.daggerCompiler
-
-    //Lifecycle
-    implementation appDependencies.lifecycle
-    kapt appDependencies.lifecycleCompiler
+    kapt libs.daggerProcessor
+    kapt libs.daggerCompiler
+    kapt libs.lifecycleCompiler
 }

@@ -1,8 +1,8 @@
 package justbucket.familiar.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import justbucket.familiar.content.extension.model.ShareModel
 import justbucket.familiar.domain.feature.share.SaveShareModel
+import justbucket.familiar.extension.model.ShareModel
 import justbucket.familiar.resource.Resource
 
 /**

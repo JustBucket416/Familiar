@@ -1,9 +1,9 @@
 package justbucket.familiar.data.mapper
 
 import com.google.gson.Gson
-import justbucket.familiar.content.extension.ExtensionModelCreator
-import justbucket.familiar.content.extension.model.DetailModel
 import justbucket.familiar.data.database.entity.DetailEntity
+import justbucket.familiar.extension.ExtensionModelCreator
+import justbucket.familiar.extension.model.DetailModel
 
 /**
  * @author JustBucket on 2019-07-24

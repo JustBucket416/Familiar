@@ -1,6 +1,5 @@
 package justbucket.familiar.di.module
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import justbucket.familiar.domain.extension.ExtensionManager
@@ -20,7 +19,7 @@ import kotlin.coroutines.CoroutineContext
 class DomainModule {
 
     @Provides
-    fun provideExtensionManager(context: Context) = ExtensionManager.getInstance(context)
+    fun provideExtensionManager() = ExtensionManager
 
     @Provides
     fun provideLoadModelDetailsFeature(context: CoroutineContext, repository: DetailRepository) =

@@ -1,4 +1,4 @@
-package justbucket.familiar.content.extension.constants
+package justbucket.familiar.extension.constants
 
 /**
  * @author JustBucket on 2019-07-22

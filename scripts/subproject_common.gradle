@@ -1,8 +1,0 @@
-apply plugin: 'com.stepango.androidjar'
-
-sourceSets.main.kotlin.srcDirs += 'src/main/kotlin'
-
-dependencies {
-    implementation Kotlin.stdlib
-    compileOnly androidjar.find(ANDROID_MIN_SDK_VERSION)
-}

@@ -3,8 +3,8 @@ package justbucket.familiar
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import justbucket.familiar.content.extension.model.MasterModel
 import justbucket.familiar.di.ui.AbstractInjectedActivity
+import justbucket.familiar.extension.model.MasterModel
 import justbucket.familiar.viewmodel.MasterViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -55,6 +55,6 @@ class MainActivity : AbstractInjectedActivity<Set<MasterModel>>() {
     private fun initViews() {
         content_recycler.layoutManager = LinearLayoutManager(this)
         content_recycler.adapter = masterAdapter
-        content_recycler.setExpandablePage(expandable_layout)
+        content_recycler.expandablePage = expandable_layout
     }
 }

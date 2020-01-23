@@ -19,13 +19,13 @@ abstract class AbstractInjectedActivity<Data> : AppCompatActivity() {
     protected abstract val viewModel: BaseViewModel<Data>
     protected val provider = ViewModelProvider(this, viewModelFactory)
 
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         resolveDependencies((application as MainApplication).component)
         super.onCreate(savedInstanceState)
 
-        viewModel.liveData.observe(this, Observer { resource ->
+        viewModel.getLiveData().observe(this, Observer { resource ->
             resource?.let {
                 handleDataState(it)
             }

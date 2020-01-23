@@ -1,4 +1,4 @@
-package justbucket.familiar.content.extension.model
+package justbucket.familiar.extension.model
 
 /**
  * @author JustBucket on 2019-07-22

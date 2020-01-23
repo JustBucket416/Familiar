@@ -1,7 +1,7 @@
 package justbucket.familiar
 
 import androidx.recyclerview.widget.DiffUtil
-import justbucket.familiar.content.extension.model.MasterModel
+import justbucket.familiar.extension.model.MasterModel
 
 /**
  * @author JustBucket on 2019-07-30

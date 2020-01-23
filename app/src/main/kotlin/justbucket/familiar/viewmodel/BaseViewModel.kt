@@ -1,5 +1,6 @@
 package justbucket.familiar.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import justbucket.familiar.resource.Resource
@@ -9,5 +10,7 @@ import justbucket.familiar.resource.Resource
  */
 open class BaseViewModel<Data> : ViewModel() {
 
-    val liveData = MutableLiveData<Resource<Data>>()
+    protected val liveData = MutableLiveData<Resource<Data>>()
+
+    fun getLiveData(): LiveData<Resource<Data>> = liveData
 }

@@ -1,8 +1,8 @@
-package justbucket.familiar.content.extension
+package justbucket.familiar.extension
 
-import justbucket.familiar.content.extension.model.DetailModel
-import justbucket.familiar.content.extension.model.MasterModel
-import justbucket.familiar.content.extension.model.ShareModel
+import justbucket.familiar.extension.model.DetailModel
+import justbucket.familiar.extension.model.MasterModel
+import justbucket.familiar.extension.model.ShareModel
 
 /**
  * @author JustBucket on 2019-07-22

@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import justbucket.familiar.content.extension.model.MasterModel
+import justbucket.familiar.extension.model.MasterModel
+import kotlinx.android.synthetic.main.view_holder_master.view.*
 
 /**
  * @author JustBucket on 2019-07-30

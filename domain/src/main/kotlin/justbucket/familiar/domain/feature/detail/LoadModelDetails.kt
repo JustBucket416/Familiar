@@ -1,10 +1,10 @@
 package justbucket.familiar.domain.feature.detail
 
-import justbucket.familiar.content.extension.exception.Failure
-import justbucket.familiar.content.extension.functional.Either
-import justbucket.familiar.content.extension.model.DetailModel
 import justbucket.familiar.domain.repository.DetailRepository
 import justbucket.familiar.domain.usecase.UseCase
+import justbucket.familiar.extension.exception.Failure
+import justbucket.familiar.extension.functional.Either
+import justbucket.familiar.extension.model.DetailModel
 import kotlin.coroutines.CoroutineContext
 
 /**

@@ -1,8 +1,8 @@
 package justbucket.familiar.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import justbucket.familiar.content.extension.model.DetailModel
 import justbucket.familiar.domain.feature.detail.LoadModelDetails
+import justbucket.familiar.extension.model.DetailModel
 import justbucket.familiar.resource.Resource
 
 class DetailViewModel(

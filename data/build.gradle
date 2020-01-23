@@ -1,13 +1,36 @@
-apply plugin: 'kotlin'
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion ANDROID_COMPILE_SDK_VERSION
+    buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        minSdkVersion ANDROID_MIN_SDK_VERSION
+        targetSdkVersion ANDROID_TARGET_SDK_VERSION
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+}
 
 dependencies {
     implementation project(":domain")
 
-    implementation dataDependencies.retrofit
-    implementation dataDependencies.retrofitConverter
-    implementation dataDependencies.gson
-    implementation dataDependencies.room
-    kapt dataDependencies.roomCompiler
+    implementation libsGroup.retrofit
+    implementation libs.roomRuntime
+    implementation Kotlin.stdlib
 }

@@ -2,9 +2,9 @@ package justbucket.familiar.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import justbucket.familiar.content.extension.model.MasterModel
 import justbucket.familiar.domain.feature.master.DeleteModel
 import justbucket.familiar.domain.feature.master.LoadAllModels
+import justbucket.familiar.extension.model.MasterModel
 import justbucket.familiar.resource.Resource
 
 /**
@@ -15,7 +15,7 @@ class MasterViewModel(
     private val deleteModel: DeleteModel
 ) : BaseViewModel<Set<MasterModel>>() {
 
-    val deleteModelEventData = MutableLiveData<Resource<Long>>()
+    private val deleteModelEventData = MutableLiveData<Resource<Long>>()
 
     fun loadModels() {
         liveData.postValue(Resource.loading())

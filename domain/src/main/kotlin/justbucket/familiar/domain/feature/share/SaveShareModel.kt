@@ -1,10 +1,10 @@
 package justbucket.familiar.domain.feature.share
 
-import justbucket.familiar.content.extension.exception.Failure
-import justbucket.familiar.content.extension.functional.Either
-import justbucket.familiar.content.extension.model.ShareModel
 import justbucket.familiar.domain.repository.ShareRepository
 import justbucket.familiar.domain.usecase.UseCase
+import justbucket.familiar.extension.exception.Failure
+import justbucket.familiar.extension.functional.Either
+import justbucket.familiar.extension.model.ShareModel
 import kotlin.coroutines.CoroutineContext
 
 /**

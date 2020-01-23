@@ -25,13 +25,13 @@ abstract class AbstractInjectedDialogFragment<Data> : DialogFragment() {
     protected abstract val viewModel: BaseViewModel<Data>
     protected val provider: ViewModelProvider = ViewModelProvider(this, viewModelFactory)
 
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onAttach(context: Context) {
         resolveDependencies((context.applicationContext as MainApplication).component)
         super.onAttach(context)
 
-        viewModel.liveData.observe(context as LifecycleOwner, Observer { resource ->
+        viewModel.getLiveData().observe(context as LifecycleOwner, Observer { resource ->
             resource?.let {
                 handleDataState(it)
             }

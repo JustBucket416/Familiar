@@ -1,10 +1,10 @@
 package justbucket.familiar.domain.feature.search
 
-import justbucket.familiar.content.extension.exception.FeatureFailure
-import justbucket.familiar.content.extension.functional.Either
-import justbucket.familiar.content.extension.model.SearchModel
 import justbucket.familiar.domain.repository.SearchRepository
 import justbucket.familiar.domain.usecase.UseCase
+import justbucket.familiar.extension.exception.Failure.FeatureFailure
+import justbucket.familiar.extension.functional.Either
+import justbucket.familiar.extension.model.SearchModel
 import kotlin.coroutines.CoroutineContext
 
 /**

@@ -1,9 +1,8 @@
 package justbucket.familiar.domain.repository
 
-import justbucket.familiar.content.extension.exception.Failure
-import justbucket.familiar.content.extension.functional.Either
-import justbucket.familiar.content.extension.model.DetailModel
-import justbucket.familiar.domain.exception.DBFailure
+import justbucket.familiar.extension.exception.Failure.DBFailure
+import justbucket.familiar.extension.functional.Either
+import justbucket.familiar.extension.model.DetailModel
 
 /**
  * @author JustBucket on 2019-07-12
