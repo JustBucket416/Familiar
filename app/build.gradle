@@ -31,15 +31,16 @@ android {
 
 dependencies {
 
-    implementation project(':domain')
-    implementation project(':data')
+    compileOnly project(':extension')
 
     implementation 'me.saket:inboxrecyclerview:2.0.0-beta3'
 
+    implementation Kotlin.coroutines
     implementation Kotlin.coroutinesAndroid
     implementation libsGroup.dagger
     implementation libsGroup.android
     implementation libsGroup.jetpack
+    implementation libsGroup.retrofit
     implementation libs.glide
     implementation libs.roomRuntime
 

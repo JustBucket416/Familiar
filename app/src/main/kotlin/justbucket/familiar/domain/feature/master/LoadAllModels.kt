@@ -13,7 +13,7 @@ import kotlin.coroutines.CoroutineContext
 class LoadAllModels(
     context: CoroutineContext,
     private val repository: MasterRepository
-) : UseCase<Either<Failure, Set<MasterModel>>, Nothing>(context) {
+) : UseCase<Either<Failure, Set<MasterModel>>, Nothing?>(context) {
 
     override suspend fun run(params: Nothing?): Either<Failure, Set<MasterModel>> {
         return repository.loadAllModels()

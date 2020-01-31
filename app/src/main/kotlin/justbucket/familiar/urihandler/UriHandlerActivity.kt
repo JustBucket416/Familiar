@@ -3,12 +3,10 @@ package justbucket.familiar.urihandler
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import dagger.android.AndroidInjection
 import justbucket.familiar.R
 import justbucket.familiar.di.viewmodel.ViewModelFactory
 import justbucket.familiar.domain.extension.ExtensionManager
 import justbucket.familiar.viewmodel.UriHandlerModel
-import javax.inject.Inject
 
 /**
  * @author JustBucket on 2019-08-28
@@ -20,16 +18,14 @@ class UriHandlerActivity : AppCompatActivity() {
 
     private val provider = ViewModelProvider(this)
 
-    @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_uri_handler)
-        AndroidInjection.inject(this)
-        val uri = intent.data
+        val uri = requireNotNull(intent.data)
 
-        val extensionHolder = ExtensionManager.getExtensions()[uri.authority]
+        val extensionHolder = ExtensionManager.getExtensions()[requireNotNull(uri.authority)]
         val creator = extensionHolder.creator
 
         val shareModel = creator.createShareModel(uri.toString())
