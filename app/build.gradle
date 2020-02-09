@@ -7,14 +7,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    def globalConfiguration = rootProject.extensions.getByName("ext")
-
-    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
-    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+    compileSdkVersion ANDROID_COMPILE_SDK_VERSION
+    buildToolsVersion ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion globalConfiguration["androidMinSdkVersion"]
-        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        minSdkVersion ANDROID_MIN_SDK_VERSION
+        targetSdkVersion ANDROID_TARGET_SDK_VERSION
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -24,37 +22,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets{
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
 }
 
 dependencies {
-    def appDependencies = rootProject.ext.appDependencies
 
-    implementation project(':domain')
-    implementation project(':data')
+    implementation project(':extension')
 
-    implementation appDependencies.appCompatV7
-    implementation appDependencies.supportDesign
-    implementation appDependencies.cardView
-    implementation appDependencies.supportRecyclerView
-    implementation appDependencies.androidSupportV4
-    implementation appDependencies.constraintLayout
-    implementation appDependencies.coroutinesAndroid
+    implementation 'me.saket:inboxrecyclerview:2.0.0-beta3'
 
-    implementation appDependencies.ktx
-    implementation appDependencies.viewModelKtx
+    implementation Kotlin.coroutines
+    implementation Kotlin.coroutinesAndroid
+    implementation libsGroup.dagger
+    implementation libsGroup.android
+    implementation libsGroup.jetpack
+    implementation libsGroup.retrofit
+    implementation libs.glide
+    implementation libs.roomRuntime
 
-    implementation 'me.saket:inboxrecyclerview:1.0.0-rc1'
-
-    //Image loading
-    implementation appDependencies.glide
-
-    //di
-    implementation appDependencies.dagger
-    implementation appDependencies.daggerSupport
-    kapt appDependencies.daggerProcessor
-    kapt appDependencies.daggerCompiler
-
-    //Lifecycle
-    implementation appDependencies.lifecycle
-    kapt appDependencies.lifecycleCompiler
+    kapt libs.daggerProcessor
+    kapt libs.daggerCompiler
+    kapt libs.lifecycleCompiler
+    kapt libs.roomCompiler
 }

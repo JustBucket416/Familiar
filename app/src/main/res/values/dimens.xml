@@ -3,4 +3,7 @@
     <dimen name="margin_medium">16dp</dimen>
     <dimen name="margin_small">4dp</dimen>
     <dimen name="corner_radius">4dp</dimen>
+    <dimen name="share_window_width">190dp</dimen>
+    <dimen name="share_window_height">350dp</dimen>
+    <dimen name="default_elevation">2dp</dimen>
 </resources>
