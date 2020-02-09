@@ -6,7 +6,7 @@ import justbucket.familiar.extension.model.ShareModel
 import justbucket.familiar.resource.Resource
 
 /**
- * @author Roman Pliskin on 2019-08-28
+ * @author JustBucket on 2019-08-28
  */
 class UriHandlerModel(
     private val saveShareModel: SaveShareModel

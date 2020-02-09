@@ -8,6 +8,10 @@ group 'justbucket.familiar'
 version '1.0.0'
 
 dependencies {
-    implementation Kotlin.stdlib
-    compileOnly androidjar.find(ANDROID_MIN_SDK_VERSION)
+    compileOnly Kotlin.stdlib
+    compileOnly androidjar.find(28)
+}
+
+java {
+    withSourcesJar()
 }

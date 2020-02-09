@@ -30,12 +30,6 @@ abstract class AbstractInjectedDialogFragment<Data> : DialogFragment() {
     override fun onAttach(context: Context) {
         resolveDependencies((context.applicationContext as MainApplication).component)
         super.onAttach(context)
-
-        viewModel.getLiveData().observe(context as LifecycleOwner, Observer { resource ->
-            resource?.let {
-                handleDataState(it)
-            }
-        })
     }
 
     override fun onCreateView(
@@ -43,12 +37,17 @@ abstract class AbstractInjectedDialogFragment<Data> : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(layoutId, container, false)
 
-    private fun handleDataState(resource: Resource<Data>) {
-        when (resource.status) {
-            ResourceState.LOADING -> setupForLoading()
-            ResourceState.SUCCESS -> setupForSuccess(resource.data)
-            ResourceState.ERROR -> setupForError(resource.message)
-        }
+    protected fun startObserving() {
+        viewModel.getLiveData().observe(context as LifecycleOwner, Observer { resource ->
+            resource?.let {
+                handleDataState(it)
+            }
+        })
+    }
+
+    @CallSuper
+    protected open fun resolveDependencies(component: AppComponent) {
+        viewModelFactory = component.getViewModelFactory()
     }
 
     protected abstract fun setupForError(message: String?)
@@ -57,8 +56,11 @@ abstract class AbstractInjectedDialogFragment<Data> : DialogFragment() {
 
     protected abstract fun setupForLoading()
 
-    @CallSuper
-    protected fun resolveDependencies(component: AppComponent) {
-        viewModelFactory = component.getViewModelFactory()
+    private fun handleDataState(resource: Resource<Data>) {
+        when (resource.status) {
+            ResourceState.LOADING -> setupForLoading()
+            ResourceState.SUCCESS -> setupForSuccess(resource.data)
+            ResourceState.ERROR -> setupForError(resource.message)
+        }
     }
 }

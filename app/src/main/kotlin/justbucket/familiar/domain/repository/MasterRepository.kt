@@ -9,7 +9,7 @@ import justbucket.familiar.extension.model.MasterModel
  */
 interface MasterRepository {
 
-    suspend fun loadAllModels(): Either<DBFailure, Set<MasterModel>>
+    suspend fun loadAllModels(): Set<MasterModel>
 
     suspend fun deleteModel(modelId: Long): Either<DBFailure, Long>
 }

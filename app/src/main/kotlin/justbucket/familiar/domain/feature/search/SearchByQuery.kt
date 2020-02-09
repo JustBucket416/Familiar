@@ -2,9 +2,7 @@ package justbucket.familiar.domain.feature.search
 
 import justbucket.familiar.domain.repository.SearchRepository
 import justbucket.familiar.domain.usecase.UseCase
-import justbucket.familiar.extension.exception.Failure.FeatureFailure
-import justbucket.familiar.extension.functional.Either
-import justbucket.familiar.extension.model.SearchModel
+import justbucket.familiar.extension.model.MasterModel
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -13,9 +11,9 @@ import kotlin.coroutines.CoroutineContext
 class SearchByQuery(
     context: CoroutineContext,
     private val repository: SearchRepository
-) : UseCase<Either<FeatureFailure, Set<SearchModel>>, SearchByQuery.Params>(context) {
+) : UseCase<Set<MasterModel>, SearchByQuery.Params>(context) {
 
-    public override suspend fun run(params: Params?): Either<FeatureFailure, Set<SearchModel>> {
+    public override suspend fun run(params: Params?): Set<MasterModel> {
         requireNotNull(params) { ILLEGAL_EXCEPTION_MESSAGE }
         return repository.searchByQuery(params.query)
     }

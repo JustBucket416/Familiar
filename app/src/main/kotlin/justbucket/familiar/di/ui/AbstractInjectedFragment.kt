@@ -30,18 +30,25 @@ abstract class AbstractInjectedFragment<Data> : Fragment() {
     override fun onAttach(context: Context) {
         resolveDependencies((context.applicationContext as MainApplication).component)
         super.onAttach(context)
-
-        viewModel.getLiveData().observe(context as LifecycleOwner, Observer { resource ->
-            resource?.let {
-                handleDataState(it)
-            }
-        })
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(layoutId, container, false)
+
+    @CallSuper
+    protected open fun resolveDependencies(component: AppComponent) {
+        viewModelFactory = component.getViewModelFactory()
+    }
+
+    protected fun startObserving() {
+        viewModel.getLiveData().observe(context as LifecycleOwner, Observer { resource ->
+            resource?.let {
+                handleDataState(it)
+            }
+        })
+    }
 
     private fun handleDataState(resource: Resource<Data>) {
         when (resource.status) {
@@ -56,9 +63,4 @@ abstract class AbstractInjectedFragment<Data> : Fragment() {
     protected abstract fun setupForSuccess(data: Data?)
 
     protected abstract fun setupForLoading()
-
-    @CallSuper
-    protected fun resolveDependencies(component: AppComponent) {
-        viewModelFactory = component.getViewModelFactory()
-    }
 }

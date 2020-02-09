@@ -17,14 +17,16 @@ import justbucket.familiar.viewmodel.BaseViewModel
 abstract class AbstractInjectedActivity<Data> : AppCompatActivity() {
 
     protected abstract val viewModel: BaseViewModel<Data>
-    protected val provider = ViewModelProvider(this, viewModelFactory)
+    protected lateinit var provider: ViewModelProvider
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         resolveDependencies((application as MainApplication).component)
         super.onCreate(savedInstanceState)
+    }
 
+    protected fun startObserving() {
         viewModel.getLiveData().observe(this, Observer { resource ->
             resource?.let {
                 handleDataState(it)
@@ -32,12 +34,10 @@ abstract class AbstractInjectedActivity<Data> : AppCompatActivity() {
         })
     }
 
-    private fun handleDataState(resource: Resource<Data>) {
-        when (resource.status) {
-            ResourceState.LOADING -> setupForLoading()
-            ResourceState.SUCCESS -> setupForSuccess(resource.data)
-            ResourceState.ERROR -> setupForError(resource.message)
-        }
+    @CallSuper
+    protected open fun resolveDependencies(component: AppComponent) { 
+        viewModelFactory = component.getViewModelFactory()
+        provider = ViewModelProvider(this, viewModelFactory)
     }
 
     protected abstract fun setupForError(message: String?)
@@ -46,8 +46,11 @@ abstract class AbstractInjectedActivity<Data> : AppCompatActivity() {
 
     protected abstract fun setupForLoading()
 
-    @CallSuper
-    protected fun resolveDependencies(component: AppComponent) {
-        viewModelFactory = component.getViewModelFactory()
+    private fun handleDataState(resource: Resource<Data>) {
+        when (resource.status) {
+            ResourceState.LOADING -> setupForLoading()
+            ResourceState.SUCCESS -> setupForSuccess(resource.data)
+            ResourceState.ERROR -> setupForError(resource.message)
+        }
     }
 }

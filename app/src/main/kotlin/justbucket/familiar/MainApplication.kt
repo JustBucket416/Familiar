@@ -16,9 +16,9 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        ExtensionManager.loadExtensions(this)
-
         IS_LOGGING_ENABLED = BuildConfig.DEBUG
+
+        ExtensionManager.loadExtensions(this)
 
         component = DaggerAppComponent
             .builder()

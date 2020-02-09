@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Reminder</string>
+    <string name="app_name">Familiar</string>
     <string name="error_loading_master_models">Error loading data</string>
     <string name="error_no_content_found">No saved content found</string>
+    <string name="search">Search</string>
+    <string name="query_hint">Type something</string>
 </resources>

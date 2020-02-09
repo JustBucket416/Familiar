@@ -31,7 +31,7 @@ android {
 
 dependencies {
 
-    compileOnly project(':extension')
+    implementation project(':extension')
 
     implementation 'me.saket:inboxrecyclerview:2.0.0-beta3'
 
@@ -47,4 +47,5 @@ dependencies {
     kapt libs.daggerProcessor
     kapt libs.daggerCompiler
     kapt libs.lifecycleCompiler
+    kapt libs.roomCompiler
 }

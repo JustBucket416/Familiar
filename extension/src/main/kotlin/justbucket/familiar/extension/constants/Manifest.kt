@@ -6,6 +6,7 @@ package justbucket.familiar.extension.constants
 const val EXTENSION_FEATURE_NAME = "familiar.extension"
 const val META_CONTENT_EXTENSION_NAME = "familiar.extension.name"
 const val META_CONTENT_EXTENSION_CONFIGURATOR_NAME = "familiar.extension.configurator"
+const val META_CONTENT_EXTENSION_LOCATOR_NAME = "familiar.extension.locator"
 const val META_CONTENT_EXTENSION_LOADER_NAME = "familiar.extension.loader"
 
 const val EXTENSION_SHARE_ACTION = "familiar.intent.action.HANDLE_URI"

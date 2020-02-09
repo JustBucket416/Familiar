@@ -5,10 +5,12 @@ import dagger.Module
 import dagger.Provides
 import justbucket.familiar.data.DetailRepositoryImpl
 import justbucket.familiar.data.MasterRepositoryImpl
+import justbucket.familiar.data.SearchRepositoryImpl
 import justbucket.familiar.data.database.ContentDatabase
 import justbucket.familiar.domain.extension.ExtensionManager
 import justbucket.familiar.domain.repository.DetailRepository
 import justbucket.familiar.domain.repository.MasterRepository
+import justbucket.familiar.domain.repository.SearchRepository
 
 /**
  * @author JustBucket on 2019-07-31
@@ -27,13 +29,12 @@ class DataModule {
         return MasterRepositoryImpl(extensionManager, contentDatabase)
     }
 
-    /*@Provides
+    @Provides
     fun provideSearchRepository(
-        extensionManager: ExtensionManager,
-        contentDatabase: ContentDatabase
+        extensionManager: ExtensionManager
     ): SearchRepository {
-        return SearchRepositoryImpl(extensionManager, contentDatabase)
-    }*/
+        return SearchRepositoryImpl(extensionManager.getExtensions().values.toList())
+    }
 
     @Provides
     fun provideDetailRepository(

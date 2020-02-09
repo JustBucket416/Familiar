@@ -1,7 +1,9 @@
 package justbucket.familiar
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import justbucket.familiar.di.ui.AbstractInjectedActivity
 import justbucket.familiar.extension.model.MasterModel
@@ -19,8 +21,33 @@ class MainActivity : AbstractInjectedActivity<Set<MasterModel>>() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         masterAdapter = MasterAdapter()
-        initViews()
         viewModel.loadModels()
+        initViews()
+        startObserving()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val view = menu.findItem(R.id.qps_search_item)?.actionView
+        if (view is SearchView) {
+            view.queryHint = getString(R.string.query_hint)
+            view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(s: String): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(s: String): Boolean {
+                    viewModel.loadContent(s)
+                    return true
+                }
+            })
+        }
+
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun setupForError(message: String?) {
