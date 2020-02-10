@@ -1,5 +1,6 @@
 package justbucket.familiar.extension
 
+import android.content.Context
 import android.view.View
 import justbucket.familiar.extension.model.DetailModel
 import justbucket.familiar.extension.model.MasterModel
@@ -11,6 +12,8 @@ import justbucket.familiar.extension.model.ShareModel
 interface ExtensionConfigurator {
 
     val extensionName: String
+
+    var context: Context?
 
     fun configureMasterModel(view: View, model: MasterModel)
 

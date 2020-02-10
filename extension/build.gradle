@@ -5,7 +5,6 @@ apply plugin: 'com.stepango.androidjar'
 sourceSets.main.kotlin.srcDirs += 'src/main/kotlin'
 
 group 'justbucket.familiar'
-version '1.0.0'
 
 dependencies {
     compileOnly Kotlin.stdlib

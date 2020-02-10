@@ -1,5 +1,6 @@
 package justbucket.familiar.extension
 
+import android.content.Context
 import justbucket.familiar.extension.exception.Failure
 import justbucket.familiar.extension.exception.Failure.FeatureFailure
 import justbucket.familiar.extension.functional.Either
@@ -13,6 +14,8 @@ import justbucket.familiar.extension.model.ShareModel
 interface ExtensionLocator {
 
     val extensionName: String
+
+    var context: Context?
 
     fun getMasterForSearch(query: String): Either<Failure, Set<MasterModel>>
 
