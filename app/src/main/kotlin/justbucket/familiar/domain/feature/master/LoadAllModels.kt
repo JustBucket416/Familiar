@@ -1,5 +1,6 @@
 package justbucket.familiar.domain.feature.master
 
+import justbucket.familiar.domain.exception.Failure
 import justbucket.familiar.domain.repository.MasterRepository
 import justbucket.familiar.domain.usecase.UseCase
 import justbucket.familiar.extension.model.MasterModel
@@ -11,9 +12,9 @@ import kotlin.coroutines.CoroutineContext
 class LoadAllModels(
     context: CoroutineContext,
     private val repository: MasterRepository
-) : UseCase<Set<MasterModel>, Nothing?>(context) {
+) : UseCase<Pair<Failure?, Set<MasterModel>>, Nothing?>(context) {
 
-    override suspend fun run(params: Nothing?): Set<MasterModel> {
+    override suspend fun run(params: Nothing?): Pair<Failure?, Set<MasterModel>> {
         return repository.loadAllModels()
     }
 }

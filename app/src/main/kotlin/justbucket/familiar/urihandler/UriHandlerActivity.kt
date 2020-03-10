@@ -3,9 +3,11 @@ package justbucket.familiar.urihandler
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import justbucket.familiar.MainApplication
 import justbucket.familiar.R
-import justbucket.familiar.di.viewmodel.ViewModelFactory
+import justbucket.familiar.di.AppComponent
 import justbucket.familiar.domain.extension.ExtensionManager
+import justbucket.familiar.extension.model.ShareModel
 import justbucket.familiar.viewmodel.UriHandlerModel
 
 /**
@@ -16,21 +18,38 @@ class UriHandlerActivity : AppCompatActivity() {
     private val viewModel: UriHandlerModel
         get() = provider[UriHandlerModel::class.java]
 
-    private val provider = ViewModelProvider(this)
-
-    lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var provider: ViewModelProvider
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        resolveDependencies((application as MainApplication).component)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_uri_handler)
         val uri = requireNotNull(intent.data)
 
         val extensionHolder = ExtensionManager.getExtensions()[requireNotNull(uri.authority)]
-        val creator = extensionHolder.creator
+        val creator = extensionHolder.mapper
 
-        val shareModel = creator.createShareModel(uri.toString())
-        extensionHolder.configurator.configureShareModel(findViewById(R.id.share_view), shareModel) {
-            viewModel.saveModel(it)
+        val shareModel = creator.createShareModel(uri) ?: ShareModel(
+            requireNotNull(uri.authority),
+            requireNotNull(uri.host)
+        )
+        val configurator = extensionHolder.configurator.configureShareModel()
+        if (configurator != null) {
+            configurator.invoke(findViewById(R.id.share_view), shareModel) {
+                viewModel.saveModel(it)
+            }
+        } else {
+            configureShareModel(shareModel)
         }
+    }
+
+    private fun resolveDependencies(component: AppComponent) {
+        viewModelFactory = component.getViewModelFactory()
+        provider = ViewModelProvider(this, viewModelFactory)
+    }
+
+    private fun configureShareModel(shareModel: ShareModel) {
+        TODO()
     }
 }

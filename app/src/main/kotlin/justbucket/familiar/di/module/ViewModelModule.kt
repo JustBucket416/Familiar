@@ -10,6 +10,7 @@ import justbucket.familiar.di.viewmodel.ViewModelKey
 import justbucket.familiar.domain.feature.detail.LoadModelDetails
 import justbucket.familiar.domain.feature.master.DeleteModel
 import justbucket.familiar.domain.feature.master.LoadAllModels
+import justbucket.familiar.domain.feature.master.SaveModel
 import justbucket.familiar.domain.feature.search.SearchByQuery
 import justbucket.familiar.viewmodel.DetailViewModel
 import justbucket.familiar.viewmodel.MasterViewModel
@@ -30,8 +31,9 @@ class ViewModelModule {
     @Provides
     @IntoMap
     @ViewModelKey(MasterViewModel::class)
-    fun provideMasterViewModel(loadAllModels: LoadAllModels, searchByQuery: SearchByQuery, deleteModel: DeleteModel): ViewModel =
-        MasterViewModel(loadAllModels, searchByQuery, deleteModel)
+    fun provideMasterViewModel(loadAllModels: LoadAllModels, searchByQuery: SearchByQuery,
+                               deleteModel: DeleteModel, saveModel: SaveModel): ViewModel =
+        MasterViewModel(loadAllModels, searchByQuery, deleteModel, saveModel)
 
     @Singleton
     @Provides

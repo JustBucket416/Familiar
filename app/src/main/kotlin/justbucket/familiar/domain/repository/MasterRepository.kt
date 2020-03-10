@@ -1,7 +1,8 @@
 package justbucket.familiar.domain.repository
 
-import justbucket.familiar.extension.exception.Failure.DBFailure
-import justbucket.familiar.extension.functional.Either
+import justbucket.familiar.domain.exception.Failure
+import justbucket.familiar.domain.exception.Failure.DBFailure
+import justbucket.familiar.domain.functional.Either
 import justbucket.familiar.extension.model.MasterModel
 
 /**
@@ -9,7 +10,9 @@ import justbucket.familiar.extension.model.MasterModel
  */
 interface MasterRepository {
 
-    suspend fun loadAllModels(): Set<MasterModel>
+    suspend fun loadAllModels(): Pair<Failure?, Set<MasterModel>>
 
     suspend fun deleteModel(modelId: Long): Either<DBFailure, Long>
+
+    suspend fun saveModel(masterModel: MasterModel): Either<DBFailure, Long>
 }

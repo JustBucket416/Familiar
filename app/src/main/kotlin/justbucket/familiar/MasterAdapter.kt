@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.view_holder_master.view.*
 /**
  * @author JustBucket on 2019-07-30
  */
-class MasterAdapter : ListAdapter<MasterModel, MasterAdapter.MasterHolder>(MasterDiffCallback()) {
+class MasterAdapter(private val onLongClickListener: (MasterModel) -> Unit) :
+    ListAdapter<MasterModel, MasterAdapter.MasterHolder>(MasterDiffCallback()) {
 
     init {
         setHasStableIds(true)
@@ -21,17 +22,29 @@ class MasterAdapter : ListAdapter<MasterModel, MasterAdapter.MasterHolder>(Maste
     override fun getItemViewType(position: Int) = getItem(position).extensionName.hashCode()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MasterHolder {
-        return MasterHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_master, parent, false))
+        return LayoutInflater
+            .from(parent.context)
+            .inflate(R.layout.view_holder_master, parent, false)
+            .let { MasterHolder(it) }
     }
 
-    override fun onBindViewHolder(holder: MasterHolder, position: Int) {
-        val model = getItem(position)
-        holder.itemView.name_text_view.text = model.title
-        holder.itemView.description_text_view.text = model.description
-        Glide.with(holder.itemView.context).load(model.imagePath).into(holder.itemView.image_view)
-    }
+    override fun onBindViewHolder(holder: MasterHolder, position: Int) =
+        getItem(position).let { holder.bind(it, onLongClickListener) }
 
     override fun getItemId(position: Int) = getItem(position).id
 
-    class MasterHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class MasterHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun bind(model: MasterModel, longClickListener: (MasterModel) -> Unit) {
+            itemView.name_text_view.text = model.title
+            itemView.description_text_view.text = model.description
+            Glide.with(itemView.context).load(model.imageLink).into(itemView.image_view)
+
+            itemView.setOnLongClickListener {
+                longClickListener.invoke(model)
+                true
+            }
+
+        }
+    }
 }

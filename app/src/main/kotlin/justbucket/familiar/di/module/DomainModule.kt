@@ -6,6 +6,7 @@ import justbucket.familiar.domain.extension.ExtensionManager
 import justbucket.familiar.domain.feature.detail.LoadModelDetails
 import justbucket.familiar.domain.feature.master.DeleteModel
 import justbucket.familiar.domain.feature.master.LoadAllModels
+import justbucket.familiar.domain.feature.master.SaveModel
 import justbucket.familiar.domain.feature.search.SearchByQuery
 import justbucket.familiar.domain.repository.DetailRepository
 import justbucket.familiar.domain.repository.MasterRepository
@@ -28,6 +29,10 @@ class DomainModule {
     @Provides
     fun provideDeleteModelFeature(context: CoroutineContext, repository: MasterRepository) =
         DeleteModel(context, repository)
+
+    @Provides
+    fun provideSaveModelFeature(context: CoroutineContext, repository: MasterRepository) =
+        SaveModel(context, repository)
 
     @Provides
     fun provideLoadAllModelsFeature(context: CoroutineContext, repository: MasterRepository) =

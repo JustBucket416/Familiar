@@ -1,12 +1,7 @@
 package justbucket.familiar.data.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
-import justbucket.familiar.data.database.DatabaseConstants
+import androidx.room.*
+import justbucket.familiar.data.database.GET_DETAIL_ENTITY_BY_ID_QUERY
 import justbucket.familiar.data.database.entity.DetailEntity
 
 /**
@@ -24,6 +19,6 @@ interface DetailDao {
     @Update
     fun updateDetailEntity(entity: DetailEntity)
 
-    @Query(DatabaseConstants.GET_DETAIL_ENTITY_BY_ID_QUERY)
+    @Query(GET_DETAIL_ENTITY_BY_ID_QUERY)
     fun getDetailEntityById(id: Long): DetailEntity
 }

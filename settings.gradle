@@ -1,1 +1,5 @@
-include ':app', ':extension'
+include ':app'
+
+if (file("/scripts/extension_substitution.gradle").exists()) {
+    apply from: "/scripts/extension_substitution.gradle"
+}

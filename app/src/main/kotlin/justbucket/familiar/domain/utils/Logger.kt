@@ -8,42 +8,42 @@ import android.util.Log
 
 var IS_LOGGING_ENABLED = false
 
-fun logV(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logV(tag: String = TAG, message: String? = null, cause: Throwable? = null) = log(
     Level.VERBOSE,
     tag,
     message,
     cause
 )
 
-fun logD(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logD(tag: String = TAG, message: String? = null, cause: Throwable? = null) = log(
     Level.DEBUG,
     tag,
     message,
     cause
 )
 
-fun logI(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logI(tag: String = TAG, message: String? = null, cause: Throwable? = null) = log(
     Level.INFO,
     tag,
     message,
     cause
 )
 
-fun logW(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logW(tag: String = TAG, message: String? = null, cause: Throwable? = null) = log(
     Level.WARN,
     tag,
     message,
     cause
 )
 
-fun logE(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logE(tag: String = TAG, message: String? = null, cause: Throwable? = null) = log(
     Level.ERROR,
     tag,
     message,
     cause
 )
 
-fun logWTF(tag: String, message: String? = null, cause: Throwable? = null) = log(
+fun logWTF(tag: String = TAG, message: String? = null, cause: Throwable? = null) = log(
     Level.WTF,
     tag,
     message,
@@ -62,6 +62,8 @@ private fun log(level: Level, tag: String, message: String? = null, cause: Throw
         }
     }
 }
+
+private const val TAG = "Familiar"
 
 private enum class Level {
     VERBOSE,

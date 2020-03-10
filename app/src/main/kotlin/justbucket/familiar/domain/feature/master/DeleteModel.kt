@@ -1,9 +1,9 @@
 package justbucket.familiar.domain.feature.master
 
+import justbucket.familiar.domain.exception.Failure.DBFailure
+import justbucket.familiar.domain.functional.Either
 import justbucket.familiar.domain.repository.MasterRepository
 import justbucket.familiar.domain.usecase.UseCase
-import justbucket.familiar.extension.exception.Failure.DBFailure
-import justbucket.familiar.extension.functional.Either
 import kotlin.coroutines.CoroutineContext
 
 /**

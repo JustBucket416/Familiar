@@ -1,24 +1,20 @@
-package justbucket.familiar.domain.feature.detail
+package justbucket.familiar.domain.feature.master
 
 import justbucket.familiar.domain.exception.Failure
 import justbucket.familiar.domain.functional.Either
-import justbucket.familiar.domain.repository.DetailRepository
+import justbucket.familiar.domain.repository.MasterRepository
 import justbucket.familiar.domain.usecase.UseCase
-import justbucket.familiar.extension.model.DetailModel
 import justbucket.familiar.extension.model.MasterModel
 import kotlin.coroutines.CoroutineContext
 
-/**
- * @author JustBucket on 2019-07-12
- */
-class LoadModelDetails(
+class SaveModel(
     context: CoroutineContext,
-    private val repository: DetailRepository
-) : UseCase<Either<Failure, DetailModel>, LoadModelDetails.Params>(context) {
+    private val repository: MasterRepository
+) : UseCase<Either<Failure.DBFailure, Long>, SaveModel.Params>(context) {
 
-    override suspend fun run(params: Params?): Either<Failure, DetailModel> {
+    override suspend fun run(params: Params?): Either<Failure.DBFailure, Long> {
         requireNotNull(params) { ILLEGAL_EXCEPTION_MESSAGE }
-        return repository.loadModelDetails(params.masterModel)
+        return repository.saveModel(params.masterModel)
     }
 
     data class Params internal constructor(val masterModel: MasterModel) {

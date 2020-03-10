@@ -19,18 +19,12 @@ class SearchRepositoryImpl(private val extensions: List<ExtensionHolder>) : Sear
             val models = mutableSetOf<MasterModel>()
             extensions.map {
                 launch {
-                    it.locator.getMasterForSearch(query).either(
-                        { failure ->
-                            logE(
-                                "Familiar - ${it.locator.extensionName}",
-                                failure.errorMessage,
-                                failure.throwable
-                            )
-                        },
-                        { set ->
-                            models.addAll(set)
-                        }
-                    )
+                    runCatching {
+                        it.locator.getMasterForSearch(query)
+                    }.getOrElse { throwable ->
+                        logE(message = throwable.localizedMessage, cause = throwable)
+                        emptySet()
+                    }.let { models.addAll(it) }
                 }
             }.joinAll()
             models

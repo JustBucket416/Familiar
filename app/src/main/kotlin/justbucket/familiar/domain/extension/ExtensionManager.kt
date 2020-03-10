@@ -8,7 +8,7 @@ import justbucket.familiar.domain.utils.logE
 import justbucket.familiar.domain.utils.logW
 import justbucket.familiar.extension.ExtensionConfigurator
 import justbucket.familiar.extension.ExtensionLocator
-import justbucket.familiar.extension.ExtensionModelCreator
+import justbucket.familiar.extension.ExtensionModelMapper
 import justbucket.familiar.extension.constants.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -53,7 +53,7 @@ object ExtensionManager {
                         val classLocator =
                             data.getString(META_CONTENT_EXTENSION_LOCATOR_NAME, "")
                         val classLoader =
-                            data.getString(META_CONTENT_EXTENSION_MODEL_CREATOR_NAME, "")
+                            data.getString(META_CONTENT_EXTENSION_MODEL_MAPPER_NAME, "")
                         val configuratorName =
                             extendClassName(classConfigurator, packageInfo.packageName)
                         val locatorName = extendClassName(classLocator, packageInfo.packageName)
@@ -93,11 +93,11 @@ object ExtensionManager {
                 val configurator = (Class.forName(
                     configuratorClassName,
                     false, classLoader
-                ).newInstance() as ExtensionConfigurator).also { it.context = context }
+                ).newInstance() as ExtensionConfigurator)
                 val creator = (Class.forName(
                     creatorClassName,
                     false, classLoader
-                ).newInstance() as ExtensionModelCreator).also { it.context = context }
+                ).newInstance() as ExtensionModelMapper)
                 val locator = (Class.forName(
                     locatorClassName,
                     false, classLoader
