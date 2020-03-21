@@ -3,23 +3,11 @@ package justbucket.familiar.resource
 /**
  * @author JustBucket on 2019-07-15
  */
-class Resource<out T> private constructor(
-    val status: ResourceState,
-    val data: T?,
-    val message: String = ""
-) {
+sealed class Resource<out T> {
 
-    companion object {
-        fun <T> success(data: T): Resource<T> {
-            return Resource(ResourceState.SUCCESS, data)
-        }
+    class Loading<out T>: Resource<T>()
 
-        fun <T> error(message: String): Resource<T> {
-            return Resource(ResourceState.ERROR, null, message)
-        }
+    data class Success<out T>(val data: T): Resource<T>()
 
-        fun <T> loading(): Resource<T> {
-            return Resource(ResourceState.LOADING, null)
-        }
-    }
+    data class Error<out T>(val errorMessage: String): Resource<T>()
 }

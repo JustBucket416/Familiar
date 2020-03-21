@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import justbucket.familiar.MainApplication
 import justbucket.familiar.di.AppComponent
 import justbucket.familiar.resource.Resource
-import justbucket.familiar.resource.ResourceState
 import justbucket.familiar.viewmodel.BaseViewModel
 
 /**
@@ -27,15 +26,11 @@ abstract class AbstractInjectedActivity<Data> : AppCompatActivity() {
     }
 
     protected fun startObserving() {
-        viewModel.getLiveData().observe(this, Observer { resource ->
-            resource?.let {
-                handleDataState(it)
-            }
-        })
+        viewModel.getLiveData().observe(this, Observer(::handleDataState))
     }
 
     @CallSuper
-    protected open fun resolveDependencies(component: AppComponent) { 
+    protected open fun resolveDependencies(component: AppComponent) {
         viewModelFactory = component.getViewModelFactory()
         provider = ViewModelProvider(this, viewModelFactory)
     }
@@ -46,11 +41,11 @@ abstract class AbstractInjectedActivity<Data> : AppCompatActivity() {
 
     protected abstract fun setupForLoading()
 
-    private fun handleDataState(resource: Resource<Data>) {
-        when (resource.status) {
-            ResourceState.LOADING -> setupForLoading()
-            ResourceState.SUCCESS -> setupForSuccess(resource.data)
-            ResourceState.ERROR -> setupForError(resource.message)
+    private fun handleDataState(resource: Resource<Data>?) {
+        when (resource) {
+            is Resource.Loading -> setupForLoading()
+            is Resource.Success -> setupForSuccess(resource.data)
+            is Resource.Error -> setupForError(resource.errorMessage)
         }
     }
 }

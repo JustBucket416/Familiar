@@ -2,6 +2,7 @@ package justbucket.familiar.domain.feature.search
 
 import justbucket.familiar.domain.repository.SearchRepository
 import justbucket.familiar.domain.usecase.UseCase
+import justbucket.familiar.domain.utils.logI
 import justbucket.familiar.extension.model.MasterModel
 import kotlin.coroutines.CoroutineContext
 

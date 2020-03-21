@@ -66,7 +66,7 @@ class DetailRepositoryImpl(
             ?: DetailModel(title = entity.modelName)
     }
 
-    private fun loadFromLocator(masterModel: MasterModel): DetailModel {
+    private suspend fun loadFromLocator(masterModel: MasterModel): DetailModel {
         return extensionManager.getExtensions()[masterModel.extensionName].locator.getDetailsForSearch(masterModel)
     }
 }

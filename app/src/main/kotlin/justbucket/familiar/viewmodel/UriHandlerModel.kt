@@ -13,16 +13,17 @@ class UriHandlerModel(
 ) : BaseViewModel<Nothing?>() {
 
     fun saveModel(model: ShareModel) {
-        liveData.postValue(Resource.loading())
+        liveData.postValue(Resource.Loading())
         saveShareModel.execute(
             viewModelScope,
             onResult = {
                 it.either(
-                    { liveData.postValue(Resource.error(it.errorMessage)) },
-                    { liveData.postValue(Resource.success(null)) }
+                    { failure -> liveData.postValue(Resource.Error(failure.errorMessage)) },
+                    { liveData.postValue(Resource.Success(null)) }
                 )
             },
-            params = SaveShareModel.Params.createParams(model)
+            params = SaveShareModel.Params.createParams(model),
+            cancelLastRequest = false
         )
     }
 }

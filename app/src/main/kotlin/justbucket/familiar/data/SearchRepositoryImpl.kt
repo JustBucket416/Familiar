@@ -3,6 +3,7 @@ package justbucket.familiar.data
 import justbucket.familiar.domain.extension.ExtensionHolder
 import justbucket.familiar.domain.repository.SearchRepository
 import justbucket.familiar.domain.utils.logE
+import justbucket.familiar.domain.utils.logI
 import justbucket.familiar.extension.model.MasterModel
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ class SearchRepositoryImpl(private val extensions: List<ExtensionHolder>) : Sear
     override suspend fun searchByQuery(query: String): Set<MasterModel> =
         withContext(coroutineContext) {
             val models = mutableSetOf<MasterModel>()
+            logI(message = "searching for $query")
             extensions.map {
                 launch {
                     runCatching {

@@ -31,8 +31,12 @@ class DomainModule {
         DeleteModel(context, repository)
 
     @Provides
-    fun provideSaveModelFeature(context: CoroutineContext, repository: MasterRepository) =
-        SaveModel(context, repository)
+    fun provideSaveModelFeature(
+        context: CoroutineContext,
+        masterRepository: MasterRepository,
+        detailRepository: DetailRepository
+    ) =
+        SaveModel(context, masterRepository, detailRepository)
 
     @Provides
     fun provideLoadAllModelsFeature(context: CoroutineContext, repository: MasterRepository) =

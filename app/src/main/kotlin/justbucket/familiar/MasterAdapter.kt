@@ -12,7 +12,10 @@ import kotlinx.android.synthetic.main.view_holder_master.view.*
 /**
  * @author JustBucket on 2019-07-30
  */
-class MasterAdapter(private val onLongClickListener: (MasterModel) -> Unit) :
+class MasterAdapter(
+    private val onClickListener: (MasterModel) -> Unit,
+    private val onLongClickListener: (MasterModel) -> Unit
+) :
     ListAdapter<MasterModel, MasterAdapter.MasterHolder>(MasterDiffCallback()) {
 
     init {
@@ -29,22 +32,28 @@ class MasterAdapter(private val onLongClickListener: (MasterModel) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: MasterHolder, position: Int) =
-        getItem(position).let { holder.bind(it, onLongClickListener) }
+        getItem(position).let { holder.bind(it, onClickListener, onLongClickListener) }
 
     override fun getItemId(position: Int) = getItem(position).id
 
     class MasterHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(model: MasterModel, longClickListener: (MasterModel) -> Unit) {
+        fun bind(
+            model: MasterModel, clickListener: (MasterModel) -> Unit,
+            longClickListener: (MasterModel) -> Unit
+        ) {
             itemView.name_text_view.text = model.title
             itemView.description_text_view.text = model.description
             Glide.with(itemView.context).load(model.imageLink).into(itemView.image_view)
+
+            itemView.setOnClickListener {
+                clickListener.invoke(model)
+            }
 
             itemView.setOnLongClickListener {
                 longClickListener.invoke(model)
                 true
             }
-
         }
     }
 }

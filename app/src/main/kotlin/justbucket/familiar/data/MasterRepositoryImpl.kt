@@ -29,8 +29,8 @@ class MasterRepositoryImpl(
             dao.getAllMasterEntities().forEach {
                 val mapper = extensionManager.getExtensions()[it.extensionName].mapper
                 try {
-                    val model = mapper.mapLocalToMaster(it.modelContent) ?: MasterModel(
-                        id = it.id ?: -1L,
+                    val model = mapper.mapLocalToMaster(it.id!!, it.modelContent) ?: MasterModel(
+                        id = it.id,
                         extensionName = it.extensionName,
                         title = it.modelName
                     )

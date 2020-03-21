@@ -2,6 +2,7 @@ package justbucket.familiar.domain.usecase
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
@@ -16,15 +17,27 @@ import kotlin.coroutines.CoroutineContext
  */
 
 abstract class UseCase<out Type, in Params>(
-    private val context: CoroutineContext
+    private val coroutineContext: CoroutineContext
 ) where Type : Any {
 
     protected val ILLEGAL_EXCEPTION_MESSAGE = "Params can't be null!"
+    private var currentJob: Job? = null
+    private var postJob: Job? = null
 
     protected abstract suspend fun run(params: Params? = null): Type
 
-    fun execute(scope: CoroutineScope, onResult: ((Type) -> Unit)? = null, params: Params? = null) {
+    fun execute(
+        scope: CoroutineScope,
+        onResult: ((Type) -> Unit)? = null,
+        params: Params? = null,
+        cancelLastRequest: Boolean = true
+    ) {
+        if (cancelLastRequest) {
+            postJob?.cancel()
+            currentJob?.cancel()
+        }
         val job = scope.async(context = Dispatchers.IO) { run(params) }
-        scope.launch(context = context) { onResult?.invoke(job.await()) }
+        postJob = scope.launch(context = coroutineContext) { onResult?.invoke(job.await()) }
+        currentJob = job
     }
 }

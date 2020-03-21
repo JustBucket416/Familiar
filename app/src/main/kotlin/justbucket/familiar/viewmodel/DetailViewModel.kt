@@ -11,12 +11,12 @@ class DetailViewModel(
 ) : BaseViewModel<DetailModel>() {
 
     fun loadDetails(masterModel: MasterModel) {
-        liveData.postValue(Resource.loading())
+        liveData.postValue(Resource.Loading())
         loadModelDetails.execute(
             viewModelScope,
             onResult = { result ->
-                result.either({ liveData.postValue(Resource.error(it.errorMessage)) },
-                    { liveData.postValue(Resource.success(it)) })
+                result.either({ liveData.postValue(Resource.Error(it.errorMessage)) },
+                    { liveData.postValue(Resource.Success(it)) })
             },
             params = LoadModelDetails.Params.createParams(masterModel)
         )

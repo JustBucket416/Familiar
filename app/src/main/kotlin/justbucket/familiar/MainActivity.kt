@@ -8,12 +8,16 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GestureDetectorCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import justbucket.familiar.di.ui.AbstractInjectedActivity
 import justbucket.familiar.domain.extension.ExtensionManager
 import justbucket.familiar.extension.model.MasterModel
+import justbucket.familiar.resource.Resource
 import justbucket.familiar.viewmodel.MasterViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
+import me.saket.inboxrecyclerview.page.PullToCollapseListener
 
 class MainActivity : AbstractInjectedActivity<Set<MasterModel>>() {
 
@@ -24,13 +28,16 @@ class MainActivity : AbstractInjectedActivity<Set<MasterModel>>() {
         get() = provider[MasterViewModel::class.java]
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ExtensionManager.loadExtensions(this)
         super.onCreate(savedInstanceState)
+        ExtensionManager.loadExtensions(this)
         setContentView(R.layout.activity_main)
-        masterAdapter = MasterAdapter { viewModel.saveModel(it) }
+        masterAdapter = MasterAdapter(::openDetailModel) { viewModel.saveModel(it) }
         viewModel.loadModels()
         initViews()
+        setupToolbar()
         startObserving()
+        subscribeToDetails()
+        //viewModel.loadContent("fate")
     }
 
     override fun onRequestPermissionsResult(
@@ -68,6 +75,14 @@ class MainActivity : AbstractInjectedActivity<Set<MasterModel>>() {
         return super.onPrepareOptionsMenu(menu)
     }
 
+    override fun onBackPressed() {
+        if (expandable_layout.isExpanded) {
+            content_recycler.collapse()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun setupForError(message: String?) {
         content_recycler.visibility = View.GONE
         expandable_layout.visibility = View.GONE
@@ -96,10 +111,51 @@ class MainActivity : AbstractInjectedActivity<Set<MasterModel>>() {
         error_text_view.visibility = View.GONE
     }
 
+    private fun subscribeToDetails() {
+        viewModel.getDetailModelData().observe(this, Observer {
+            when (it) {
+                is Resource.Loading -> {
+                    expandable_layout.detail_progress_bar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    expandable_layout.detail_progress_bar.visibility = View.GONE
+                    ExtensionManager.getExtensions()[it.data.extensionName].configurator
+                        .configureDetailModel()?.invoke(detail_layout, it.data)
+                }
+                is Resource.Error -> {
+                    expandable_layout.detail_progress_bar.visibility = View.GONE
+                    content_recycler.collapse()
+                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(toolbar)
+        setTitle(R.string.app_name)
+    }
+
     private fun initViews() {
         content_recycler.layoutManager = LinearLayoutManager(this)
         content_recycler.adapter = masterAdapter
         content_recycler.expandablePage = expandable_layout
+
+        expandable_layout.addOnPullListener(object : PullToCollapseListener.OnPullListener{
+            override fun onPull(
+                deltaY: Float,
+                currentTranslationY: Float,
+                upwardPull: Boolean,
+                deltaUpwardPull: Boolean,
+                collapseEligible: Boolean
+            ) {
+                detail_layout.removeAllViews()
+            }
+
+            override fun onRelease(collapseEligible: Boolean) {
+
+            }
+        })
 
         val gestureDetectorCompat =
             GestureDetectorCompat(this, object : GestureDetector.OnGestureListener {
@@ -121,9 +177,8 @@ class MainActivity : AbstractInjectedActivity<Set<MasterModel>>() {
                     velocityX: Float,
                     velocityY: Float
                 ): Boolean {
-                    Toast.makeText(this@MainActivity, "Reloading extensions", Toast.LENGTH_SHORT)
-                        .show()
-                    ExtensionManager.loadExtensions(this@MainActivity)
+                    //Toast.makeText(this@MainActivity, "Reloading extensions", Toast.LENGTH_SHORT).show()
+                    //ExtensionManager.loadExtensions(this@MainActivity)
                     return true
                 }
 
@@ -137,12 +192,16 @@ class MainActivity : AbstractInjectedActivity<Set<MasterModel>>() {
                 }
 
                 override fun onLongPress(e: MotionEvent?) {
-
                 }
             })
         (content_recycler.parent as View).setOnTouchListener { _, event ->
             gestureDetectorCompat.onTouchEvent(event)
             true
         }
+    }
+
+    private fun openDetailModel(model: MasterModel) {
+        content_recycler.expandItem(model.id)
+        viewModel.loadDetails(model)
     }
 }

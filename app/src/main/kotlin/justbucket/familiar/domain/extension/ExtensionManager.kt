@@ -3,19 +3,22 @@ package justbucket.familiar.domain.extension
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.util.Log
 import dalvik.system.PathClassLoader
 import justbucket.familiar.domain.utils.logE
+import justbucket.familiar.domain.utils.logI
 import justbucket.familiar.domain.utils.logW
 import justbucket.familiar.extension.ExtensionConfigurator
 import justbucket.familiar.extension.ExtensionLocator
 import justbucket.familiar.extension.ExtensionModelMapper
 import justbucket.familiar.extension.constants.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.io.File
-
 
 /**
  * @author JustBucket on 2019-07-22
@@ -30,8 +33,8 @@ object ExtensionManager {
     fun loadExtensions(context: Context) = runBlocking {
         val pm = context.packageManager
         val packages = pm?.getInstalledPackages(PackageManager.GET_CONFIGURATIONS)
-        packages?.forEach { packageInfo ->
-            launch {
+        packages?.map { packageInfo ->
+            launch(Dispatchers.IO) {
                 val features = packageInfo.reqFeatures
                 features?.forEach {
                     if (it.name == EXTENSION_FEATURE_NAME) {
@@ -72,7 +75,8 @@ object ExtensionManager {
                     }
                 }
             }
-        }
+        }?.joinAll()
+        logI(message = "extensions loaded")
     }
 
     private suspend fun loadExtension(

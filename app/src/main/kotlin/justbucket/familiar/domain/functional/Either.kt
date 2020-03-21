@@ -20,7 +20,7 @@ sealed class Either<out L, out R> {
     val isLeft get() = this is Left<L>
 
     fun <L> left(a: L) = Left(a)
-    fun <R> right(b: R) = Right(b)
+    suspend fun <R> right(b: R) = Right(b)
 
     fun either(fnL: (L) -> Any, fnR: (R) -> Any): Any =
         when (this) {
@@ -31,14 +31,14 @@ sealed class Either<out L, out R> {
 
 // Credits to Alex Hart -> https://proandroiddev.com/kotlins-nothing-type-946de7d464fb
 // Composes 2 functions
-fun <A, B, C> ((A) -> B).c(f: (B) -> C): (A) -> C = {
+suspend fun <A, B, C> (suspend (A) -> B).c(f: suspend (B) -> C): suspend (A) -> C = {
     f(this(it))
 }
 
-fun <T, L, R> Either<L, R>.flatMap(fn: (R) -> Either<L, T>): Either<L, T> =
+suspend fun <T, L, R> Either<L, R>.flatMap(fn: suspend (R) -> Either<L, T>): Either<L, T> =
     when (this) {
         is Either.Left -> this
         is Either.Right -> fn(b)
     }
 
-fun <T, L, R> Either<L, R>.map(fn: (R) -> (T)): Either<L, T> = this.flatMap(fn.c(::right))
+suspend fun <T, L, R> Either<L, R>.map(fn: suspend (R) -> (T)): Either<L, T> = this.flatMap(fn.c(::right))

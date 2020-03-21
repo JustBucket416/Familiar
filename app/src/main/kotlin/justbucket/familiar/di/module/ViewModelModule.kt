@@ -32,8 +32,8 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(MasterViewModel::class)
     fun provideMasterViewModel(loadAllModels: LoadAllModels, searchByQuery: SearchByQuery,
-                               deleteModel: DeleteModel, saveModel: SaveModel): ViewModel =
-        MasterViewModel(loadAllModels, searchByQuery, deleteModel, saveModel)
+                               deleteModel: DeleteModel, saveModel: SaveModel, loadModelDetails: LoadModelDetails): ViewModel =
+        MasterViewModel(loadAllModels, searchByQuery, deleteModel, saveModel, loadModelDetails)
 
     @Singleton
     @Provides
