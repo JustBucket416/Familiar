@@ -59,7 +59,7 @@ class DetailRepositoryImpl(
         }
     }
 
-    private fun loadFromDb(modelId: Long): DetailModel {
+    private suspend fun loadFromDb(modelId: Long): DetailModel {
         val entity = dao.getDetailEntityById(modelId)
         val creator = extensionManager.getExtensions()[entity.extensionName].mapper
         return creator.mapLocalToDetail(entity.modelContent)

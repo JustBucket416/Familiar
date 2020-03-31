@@ -1,7 +1,7 @@
 //Androidx
 def ANDROIDX_VERSION = '2.2.0-rc02'
 def ANDROIDX_SUPPORT = '1.1.0'
-def ANDROIDX_CONSTRAINT = '2.0.0-beta3'
+def ANDROIDX_CONSTRAINT = '2.0.0-beta4'
 def ANDROIDX_MATERIAL = '1.2.0-alpha02'
 def ANDROIDX_KTX = '1.1.0'
 def ANDROIDX_ROOM = '2.2.3'

@@ -34,12 +34,13 @@ class UriHandlerActivity : AppCompatActivity() {
             requireNotNull(uri.authority),
             requireNotNull(uri.host)
         )
-        val configurator = extensionHolder.configurator.configureShareModel()
-        if (configurator != null) {
-            configurator.invoke(findViewById(R.id.share_view), shareModel) {
-                viewModel.saveModel(it)
-            }
-        } else {
+        val alreadyConfigured = extensionHolder.configurator.configureShareModel(
+            findViewById(R.id.share_view),
+            shareModel
+        ) {
+            viewModel.saveModel(it)
+        }
+        if (!alreadyConfigured) {
             configureShareModel(shareModel)
         }
     }

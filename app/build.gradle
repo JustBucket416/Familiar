@@ -23,14 +23,14 @@ android {
         }
     }
 
-    sourceSets{
+    sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
         test.java.srcDirs += 'src/test/kotlin'
     }
 }
 
 dependencies {
-    implementation 'justbucket.familiar:extension:0.2.0'
+    implementation 'justbucket.familiar:extension:0.2.5'
 
     implementation 'me.saket:inboxrecyclerview:2.0.0-beta3'
 
