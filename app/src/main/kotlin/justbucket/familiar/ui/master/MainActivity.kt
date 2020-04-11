@@ -21,9 +21,11 @@ import justbucket.familiar.ui.detail.DetailAdapter
 import justbucket.familiar.ui.viewmodel.MasterViewModel
 import justbucket.familiar.utils.NonNullMap
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import me.saket.inboxrecyclerview.InboxRecyclerView
 import me.saket.inboxrecyclerview.locationOnScreen
 
+@ExperimentalCoroutinesApi
 class MainActivity : AbstractInjectedActivity<List<MasterModel>>(),
     DetailFragment.FragmentProvider {
 
@@ -166,11 +168,15 @@ class MainActivity : AbstractInjectedActivity<List<MasterModel>>(),
     private inner class DetailAdapterPageChangeListener : ViewPager.SimpleOnPageChangeListener() {
 
         override fun onPageSelected(position: Int) {
-            content_recycler.findViewHolderForAdapterPosition(previousPosition)?.itemView?.alpha = 1F
+            content_recycler.findViewHolderForAdapterPosition(previousPosition)?.itemView?.alpha =
+                1F
             //content_recycler.findViewHolderForAdapterPosition(position)?.itemView?.alpha = 1F
             content_recycler.expandedItem = positionMap[position]
 
-            content_recycler.itemExpandAnimator.onPageMove(content_recycler, content_recycler.expandablePage!!)
+            content_recycler.itemExpandAnimator.onPageMove(
+                content_recycler,
+                content_recycler.expandablePage!!
+            )
             previousPosition = position
         }
     }

@@ -7,6 +7,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.Dispatchers
+import kotlin.coroutines.CoroutineContext
 
 /**
  * @author JustBucket on 2019-07-31
@@ -23,7 +24,7 @@ abstract class AppModule {
 
         @Provides
         @JvmStatic
-        fun provideCoroutineContext(): kotlin.coroutines.CoroutineContext = Dispatchers.Main
+        fun provideCoroutineContext(): CoroutineContext = Dispatchers.Main
     }
 
     @Binds

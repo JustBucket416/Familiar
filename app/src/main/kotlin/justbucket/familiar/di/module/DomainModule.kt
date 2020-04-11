@@ -7,10 +7,8 @@ import justbucket.familiar.domain.feature.detail.LoadModelDetails
 import justbucket.familiar.domain.feature.master.DeleteModel
 import justbucket.familiar.domain.feature.master.LoadAllModels
 import justbucket.familiar.domain.feature.master.SaveModel
-import justbucket.familiar.domain.feature.search.SearchByQuery
 import justbucket.familiar.domain.repository.DetailRepository
 import justbucket.familiar.domain.repository.MasterRepository
-import justbucket.familiar.domain.repository.SearchRepository
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -42,7 +40,4 @@ class DomainModule {
     fun provideLoadAllModelsFeature(context: CoroutineContext, repository: MasterRepository) =
         LoadAllModels(context, repository)
 
-    @Provides
-    fun provideSearchByQueryFeature(context: CoroutineContext, repository: SearchRepository) =
-        SearchByQuery(context, repository)
 }

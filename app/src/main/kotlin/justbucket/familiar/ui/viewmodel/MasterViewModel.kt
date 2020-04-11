@@ -4,76 +4,50 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import justbucket.familiar.domain.feature.detail.LoadModelDetails
-import justbucket.familiar.domain.feature.master.DeleteModel
-import justbucket.familiar.domain.feature.master.LoadAllModels
-import justbucket.familiar.domain.feature.master.SaveModel
-import justbucket.familiar.domain.feature.search.SearchByQuery
+import justbucket.familiar.domain.repository.MasterRepository
 import justbucket.familiar.extension.model.DetailModel
 import justbucket.familiar.extension.model.MasterModel
 import justbucket.familiar.extension.resource.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 /**
  * @author JustBucket on 2019-07-15
  */
+@ExperimentalCoroutinesApi
 class MasterViewModel(
-    private val loadAllModels: LoadAllModels,
-    private val searchByQuery: SearchByQuery,
-    private val deleteModel: DeleteModel,
-    private val saveModel: SaveModel,
+    private val masterRepository: MasterRepository,
     private val loadModelDetails: LoadModelDetails
 ) : BaseViewModel<List<MasterModel>>() {
 
-    private val deleteModelEventData = MutableLiveData<Resource<Long>>()
-
     fun loadModels() {
         liveData.postValue(Resource.Loading())
-        loadAllModels.execute(viewModelScope,
-            {
-                if (it.second.isNotEmpty()) {
-                    liveData.postValue(Resource.Success(it.second))
-                } else {
-                    liveData.postValue(Resource.Error("No data found"))
-                }
-            }
-        )
+        masterRepository.loadAllModels()
+            .onEach { liveData.postValue(Resource.Success(it)) }
+            .catch { liveData.postValue(Resource.Error("No data found")) }
+            .launchIn(viewModelScope)
     }
 
     fun deleteModel(id: Long) {
-        deleteModelEventData.postValue(Resource.Loading())
-        deleteModel.execute(
-            viewModelScope,
-            onResult = {
-                it.either(
-                    { deleteModelEventData.postValue(Resource.Error(it.errorMessage)) },
-                    { deleteModelEventData.postValue(Resource.Success(it)) })
-            },
-            params = DeleteModel.Params.createParams(id),
-            cancelLastRequest = false
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            masterRepository.deleteModel(id)
+        }
     }
 
     fun saveModel(model: MasterModel) {
-        saveModel.execute(
-            viewModelScope,
-            onResult = {},
-            params = SaveModel.Params.createParams(model)
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            masterRepository.saveModel(model)
+        }
     }
 
     fun loadContent(query: String) {
         if (query.isNotEmpty()) {
             liveData.postValue(Resource.Loading())
-            searchByQuery.execute(
-                viewModelScope,
-                {
-                    if (it.isNotEmpty()) {
-                        liveData.postValue(Resource.Success(it))
-                    } else {
-                        liveData.postValue(Resource.Error("No data found"))
-                    }
-                },
-                SearchByQuery.Params.createParams(query)
-            )
+            masterRepository.searchByQuery(viewModelScope, query)
         }
     }
 
