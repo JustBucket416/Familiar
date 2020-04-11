@@ -32,9 +32,9 @@ object ExtensionManager {
 
     fun loadExtensions(context: Context) = runBlocking {
         val pm = context.packageManager
-        val packages = pm?.getInstalledPackages(PackageManager.GET_CONFIGURATIONS)
-        packages?.filter { it.reqFeatures?.any { it.name == EXTENSION_FEATURE_NAME } == true }
-            ?.map { packageInfo ->
+        val packages = pm.getInstalledPackages(PackageManager.GET_CONFIGURATIONS)
+        packages.filter { it.reqFeatures?.any { it.name == EXTENSION_FEATURE_NAME } == true }
+            .map { packageInfo ->
                 launch(Dispatchers.IO) {
                     val applicationInfo = try {
                         pm.getApplicationInfo(
@@ -71,7 +71,7 @@ object ExtensionManager {
                         extensionHolders[extensionName] = extensionItem
                     }
                 }
-            }?.joinAll()
+            }.joinAll()
         logI(message = "extensions loaded")
     }
 

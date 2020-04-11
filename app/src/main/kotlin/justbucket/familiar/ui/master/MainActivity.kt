@@ -32,7 +32,6 @@ class MainActivity : AbstractInjectedActivity<List<MasterModel>>(),
     private val locationBuffer = IntArray(2)
     private val positionMap = NonNullMap<Int, InboxRecyclerView.ExpandedItem>()
     private lateinit var masterAdapter: MasterAdapter
-    private lateinit var detailAdapter: DetailAdapter
     private var query = ""
     private var previousPosition = 0
 
@@ -112,7 +111,7 @@ class MainActivity : AbstractInjectedActivity<List<MasterModel>>(),
 
         if (!data.isNullOrEmpty()) {
             masterAdapter.submitList(data)
-            detailAdapter.updateList(data)
+            view_pager.adapter = DetailAdapter(data, supportFragmentManager)
         } else {
             setupForError(getString(R.string.error_no_content_found))
         }
@@ -149,9 +148,6 @@ class MainActivity : AbstractInjectedActivity<List<MasterModel>>(),
         content_recycler.adapter = masterAdapter
         content_recycler.expandablePage = expandable_layout
 
-        detailAdapter = DetailAdapter(supportFragmentManager)
-        view_pager.adapter = detailAdapter
-
         view_pager.addOnPageChangeListener(DetailAdapterPageChangeListener())
     }
 
@@ -170,7 +166,6 @@ class MainActivity : AbstractInjectedActivity<List<MasterModel>>(),
         override fun onPageSelected(position: Int) {
             content_recycler.findViewHolderForAdapterPosition(previousPosition)?.itemView?.alpha =
                 1F
-            //content_recycler.findViewHolderForAdapterPosition(position)?.itemView?.alpha = 1F
             content_recycler.expandedItem = positionMap[position]
 
             content_recycler.itemExpandAnimator.onPageMove(
