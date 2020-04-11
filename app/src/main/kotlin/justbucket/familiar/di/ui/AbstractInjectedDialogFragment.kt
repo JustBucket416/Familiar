@@ -12,8 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import justbucket.familiar.MainApplication
 import justbucket.familiar.di.AppComponent
-import justbucket.familiar.resource.Resource
-import justbucket.familiar.viewmodel.BaseViewModel
+import justbucket.familiar.extension.resource.Resource
+import justbucket.familiar.ui.viewmodel.BaseViewModel
 
 /**
  * @author JustBucket on 2019-07-15

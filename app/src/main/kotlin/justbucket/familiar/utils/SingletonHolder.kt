@@ -1,4 +1,4 @@
-package justbucket.familiar.domain.utils
+package justbucket.familiar.utils
 
 /**
  * @author JustBucket on 2019-07-22

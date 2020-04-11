@@ -8,7 +8,7 @@ import justbucket.familiar.R
 import justbucket.familiar.di.AppComponent
 import justbucket.familiar.domain.extension.ExtensionManager
 import justbucket.familiar.extension.model.ShareModel
-import justbucket.familiar.viewmodel.UriHandlerModel
+import justbucket.familiar.ui.viewmodel.UriHandlerModel
 
 /**
  * @author JustBucket on 2019-08-28

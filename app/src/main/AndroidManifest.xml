@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".MainApplication"
@@ -14,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/FamiliarTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="justbucket.familiar.MainActivity">
+        <activity android:name="justbucket.familiar.ui.master.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

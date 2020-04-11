@@ -1,4 +1,4 @@
-package justbucket.familiar
+package justbucket.familiar.ui.master
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import justbucket.familiar.R
 import justbucket.familiar.extension.model.MasterModel
 import kotlinx.android.synthetic.main.view_holder_master.view.*
 
@@ -15,8 +16,9 @@ import kotlinx.android.synthetic.main.view_holder_master.view.*
 class MasterAdapter(
     private val onClickListener: (MasterModel) -> Unit,
     private val onLongClickListener: (MasterModel) -> Unit
-) :
-    ListAdapter<MasterModel, MasterAdapter.MasterHolder>(MasterDiffCallback()) {
+) : ListAdapter<MasterModel, MasterAdapter.MasterHolder>(
+    MasterDiffCallback()
+) {
 
     init {
         setHasStableIds(true)

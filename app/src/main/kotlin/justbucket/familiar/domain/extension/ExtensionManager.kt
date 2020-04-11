@@ -5,13 +5,14 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.appcompat.view.ContextThemeWrapper
 import dalvik.system.PathClassLoader
-import justbucket.familiar.domain.utils.logE
-import justbucket.familiar.domain.utils.logI
-import justbucket.familiar.domain.utils.logW
 import justbucket.familiar.extension.ExtensionConfigurator
 import justbucket.familiar.extension.ExtensionLocator
 import justbucket.familiar.extension.ExtensionModelMapper
 import justbucket.familiar.extension.constants.*
+import justbucket.familiar.utils.NonNullMap
+import justbucket.familiar.utils.logE
+import justbucket.familiar.utils.logI
+import justbucket.familiar.utils.logW
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
@@ -144,10 +145,5 @@ object ExtensionManager {
         modifiersField.isAccessible = false
 
         field.isAccessible = false
-    }
-
-    class NonNullMap<K, V : Any> : HashMap<K, V>() {
-
-        override operator fun get(key: K): V = requireNotNull(super.get(key))
     }
 }

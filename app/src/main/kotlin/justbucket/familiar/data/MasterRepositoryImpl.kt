@@ -8,8 +8,8 @@ import justbucket.familiar.domain.exception.Failure.DBFailure
 import justbucket.familiar.domain.extension.ExtensionManager
 import justbucket.familiar.domain.functional.Either
 import justbucket.familiar.domain.repository.MasterRepository
-import justbucket.familiar.domain.utils.logE
 import justbucket.familiar.extension.model.MasterModel
+import justbucket.familiar.utils.logE
 import org.json.JSONException
 
 /**
@@ -22,8 +22,8 @@ class MasterRepositoryImpl(
 
     private val dao = contentDatabase.getMasterDao()
 
-    override suspend fun loadAllModels(): Pair<Failure?, Set<MasterModel>> {
-        val result = mutableSetOf<MasterModel>()
+    override suspend fun loadAllModels(): Pair<Failure?, List<MasterModel>> {
+        val result = mutableListOf<MasterModel>()
         var failure: Failure? = null
         try {
             dao.getAllMasterEntities().forEach {
@@ -36,7 +36,10 @@ class MasterRepositoryImpl(
                     )
                     result.add(model)
                 } catch (e: JSONException) {
-                    logE(message = e.localizedMessage, cause = e)
+                    logE(
+                        message = e.localizedMessage,
+                        cause = e
+                    )
                     failure = Failure.FeatureFailure(e.localizedMessage, e)
                 }
             }
@@ -54,7 +57,10 @@ class MasterRepositoryImpl(
             Either.Right(modelId)
         } catch (e: SQLiteException) {
             val errorMessage = "Failed to delete model"
-            logE(message = errorMessage, cause = e)
+            logE(
+                message = errorMessage,
+                cause = e
+            )
             Either.Left(DBFailure(errorMessage, e))
         }
 
@@ -72,7 +78,10 @@ class MasterRepositoryImpl(
                     Either.Right(id)
                 }
         } catch (e: SQLiteException) {
-            logE(message = e.localizedMessage, cause = e)
+            logE(
+                message = e.localizedMessage,
+                cause = e
+            )
             Either.Left(DBFailure(e.localizedMessage, e))
         }
     }

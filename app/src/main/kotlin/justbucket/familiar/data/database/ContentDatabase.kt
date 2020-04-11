@@ -8,7 +8,7 @@ import justbucket.familiar.data.database.dao.DetailDao
 import justbucket.familiar.data.database.dao.MasterDao
 import justbucket.familiar.data.database.entity.DetailEntity
 import justbucket.familiar.data.database.entity.MasterEntity
-import justbucket.familiar.domain.utils.SingletonHolder
+import justbucket.familiar.utils.SingletonHolder
 
 /**
  * @author JustBucket on 2019-07-24

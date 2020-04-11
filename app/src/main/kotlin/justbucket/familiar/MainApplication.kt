@@ -3,7 +3,7 @@ package justbucket.familiar
 import android.app.Application
 import justbucket.familiar.di.AppComponent
 import justbucket.familiar.di.DaggerAppComponent
-import justbucket.familiar.domain.utils.IS_LOGGING_ENABLED
+import justbucket.familiar.utils.IS_LOGGING_ENABLED
 
 /**
  * @author JustBucket on 2019-07-31

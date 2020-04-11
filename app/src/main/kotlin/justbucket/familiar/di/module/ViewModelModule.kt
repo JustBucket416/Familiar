@@ -12,8 +12,7 @@ import justbucket.familiar.domain.feature.master.DeleteModel
 import justbucket.familiar.domain.feature.master.LoadAllModels
 import justbucket.familiar.domain.feature.master.SaveModel
 import justbucket.familiar.domain.feature.search.SearchByQuery
-import justbucket.familiar.viewmodel.DetailViewModel
-import justbucket.familiar.viewmodel.MasterViewModel
+import justbucket.familiar.ui.viewmodel.MasterViewModel
 import javax.inject.Provider
 import javax.inject.Singleton
 
@@ -22,11 +21,6 @@ import javax.inject.Singleton
  */
 @Module
 class ViewModelModule {
-
-    @Provides
-    @IntoMap
-    @ViewModelKey(DetailViewModel::class)
-    fun provideDetailViewModel(loadModelDetails: LoadModelDetails): ViewModel = DetailViewModel(loadModelDetails)
 
     @Provides
     @IntoMap

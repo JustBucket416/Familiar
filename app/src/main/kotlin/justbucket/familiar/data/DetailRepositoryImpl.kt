@@ -8,9 +8,9 @@ import justbucket.familiar.domain.exception.Failure
 import justbucket.familiar.domain.extension.ExtensionManager
 import justbucket.familiar.domain.functional.Either
 import justbucket.familiar.domain.repository.DetailRepository
-import justbucket.familiar.domain.utils.logE
 import justbucket.familiar.extension.model.DetailModel
 import justbucket.familiar.extension.model.MasterModel
+import justbucket.familiar.utils.logE
 import java.io.IOException
 
 /**
@@ -54,7 +54,10 @@ class DetailRepositoryImpl(
                     Either.Right(id)
                 }
         } catch (e: SQLiteException) {
-            logE(message = e.localizedMessage, cause = e)
+            logE(
+                message = e.localizedMessage,
+                cause = e
+            )
             Either.Left(Failure.DBFailure(e.localizedMessage, e))
         }
     }

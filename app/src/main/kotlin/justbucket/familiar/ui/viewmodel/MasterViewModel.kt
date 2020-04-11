@@ -1,4 +1,4 @@
-package justbucket.familiar.viewmodel
+package justbucket.familiar.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import justbucket.familiar.domain.feature.master.SaveModel
 import justbucket.familiar.domain.feature.search.SearchByQuery
 import justbucket.familiar.extension.model.DetailModel
 import justbucket.familiar.extension.model.MasterModel
-import justbucket.familiar.resource.Resource
+import justbucket.familiar.extension.resource.Resource
 
 /**
  * @author JustBucket on 2019-07-15
@@ -21,12 +21,9 @@ class MasterViewModel(
     private val deleteModel: DeleteModel,
     private val saveModel: SaveModel,
     private val loadModelDetails: LoadModelDetails
-) : BaseViewModel<Set<MasterModel>>() {
+) : BaseViewModel<List<MasterModel>>() {
 
     private val deleteModelEventData = MutableLiveData<Resource<Long>>()
-    private val detailModelData = MutableLiveData<Resource<DetailModel>>()
-
-    fun getDetailModelData(): LiveData<Resource<DetailModel>> = detailModelData
 
     fun loadModels() {
         liveData.postValue(Resource.Loading())
@@ -80,15 +77,20 @@ class MasterViewModel(
         }
     }
 
-    fun loadDetails(masterModel: MasterModel) {
-        detailModelData.postValue(Resource.Loading())
+    fun loadDetails(masterModel: MasterModel): LiveData<Resource<DetailModel>> {
+        val liveData = MutableLiveData<Resource<DetailModel>>()
+        liveData.postValue(Resource.Loading())
         loadModelDetails.execute(
             viewModelScope,
             onResult = { result ->
-                result.either({ detailModelData.postValue(Resource.Error(it.errorMessage)) },
-                    { detailModelData.postValue(Resource.Success(it)) })
+                result.either({ liveData.postValue(Resource.Error(it.errorMessage)) },
+                    {
+                        liveData.postValue(Resource.Success(it))
+                    })
             },
-            params = LoadModelDetails.Params.createParams(masterModel)
+            params = LoadModelDetails.Params.createParams(masterModel),
+            cancelLastRequest = false
         )
+        return liveData
     }
 }

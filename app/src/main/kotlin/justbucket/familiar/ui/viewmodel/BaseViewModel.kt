@@ -1,9 +1,9 @@
-package justbucket.familiar.viewmodel
+package justbucket.familiar.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import justbucket.familiar.resource.Resource
+import justbucket.familiar.extension.resource.Resource
 
 /**
  * @author JustBucket on 2019-07-15

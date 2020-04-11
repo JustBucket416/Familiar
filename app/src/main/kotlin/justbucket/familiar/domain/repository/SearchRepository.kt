@@ -7,5 +7,5 @@ import justbucket.familiar.extension.model.MasterModel
  */
 interface SearchRepository {
 
-    suspend fun searchByQuery(query: String): Set<MasterModel>
+    suspend fun searchByQuery(query: String): List<MasterModel>
 }
