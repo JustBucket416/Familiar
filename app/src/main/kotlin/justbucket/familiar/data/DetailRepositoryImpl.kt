@@ -37,7 +37,6 @@ class DetailRepositoryImpl(
             is IOException -> Either.Left(Failure.NetworkFailure(e.localizedMessage, e))
             else -> throw e
         }
-
     }
 
     override suspend fun saveDetailModel(detailModel: DetailModel): Either<Failure.DBFailure, Long> {
@@ -64,8 +63,8 @@ class DetailRepositoryImpl(
 
     private suspend fun loadFromDb(modelId: Long): DetailModel {
         val entity = dao.getDetailEntityById(modelId)
-        val creator = extensionManager.getExtensions()[entity.extensionName].mapper
-        return creator.mapLocalToDetail(entity.modelContent)
+        val mapper = extensionManager.getExtensions()[entity.extensionName].mapper
+        return mapper.mapLocalToDetail(entity.modelContent)
             ?: DetailModel(title = entity.modelName)
     }
 

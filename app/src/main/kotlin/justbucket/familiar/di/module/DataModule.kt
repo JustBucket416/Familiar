@@ -22,9 +22,10 @@ class DataModule {
     @Provides
     fun provideMasterRepository(
         extensionManager: ExtensionManager,
-        contentDatabase: ContentDatabase
+        contentDatabase: ContentDatabase,
+        detailRepository: DetailRepository
     ): MasterRepository {
-        return MasterRepositoryImpl(extensionManager, contentDatabase)
+        return MasterRepositoryImpl(extensionManager, contentDatabase, detailRepository)
     }
 
     @Provides

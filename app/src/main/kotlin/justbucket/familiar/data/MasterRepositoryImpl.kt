@@ -6,9 +6,12 @@ import justbucket.familiar.data.database.ContentDatabase
 import justbucket.familiar.data.database.MASTER_TABLE_NAME
 import justbucket.familiar.data.database.entity.MasterEntity
 import justbucket.familiar.domain.extension.ExtensionManager
+import justbucket.familiar.domain.functional.flatMap
+import justbucket.familiar.domain.repository.DetailRepository
 import justbucket.familiar.domain.repository.MasterRepository
 import justbucket.familiar.extension.model.MasterModel
 import justbucket.familiar.utils.logE
+import justbucket.familiar.utils.logI
 import justbucket.familiar.utils.logW
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -24,7 +27,8 @@ import kotlinx.coroutines.sync.withLock
 @ExperimentalCoroutinesApi
 class MasterRepositoryImpl(
     private val extensionManager: ExtensionManager,
-    private val contentDatabase: ContentDatabase
+    private val contentDatabase: ContentDatabase,
+    private val detailRepository: DetailRepository
 ) : MasterRepository, InvalidationTracker.Observer(MASTER_TABLE_NAME) {
 
     private val dao = contentDatabase.getMasterDao()
@@ -72,30 +76,39 @@ class MasterRepositoryImpl(
             return
         }
         val mapper = extensionManager.getExtensions()[masterModel.extensionName].mapper
-        return mapper.mapMasterToLocal(masterModel).orEmpty()
+        mapper.mapMasterToLocal(masterModel).orEmpty()
             .let { modelContent ->
                 MasterEntity(null, masterModel.extensionName, masterModel.title, modelContent)
             }
             .let { entity ->
                 dao.insertOrUpdate(entity)
             }
+        detailRepository.loadModelDetails(masterModel)
+            .flatMap { detailModel -> detailRepository.saveDetailModel(detailModel) }
     }
 
     private fun loadModelsFromDb(query: String? = null, scope: CoroutineScope = GlobalScope) =
         scope.launch(Dispatchers.IO) {
             try {
-                dao.getAllMasterEntities()
+                val groupedEntities = dao.getAllMasterEntities()
                     .let { entities ->
                         if (query != null) {
                             entities.filter { it.modelName.contains(query, ignoreCase = true) }
                         } else {
                             entities
                         }
+                    }.groupBy {
+                        it.extensionName
                     }
-                    .groupBy { it.extensionName }
-                    .forEach { (extensionName, modelList) ->
+                if (groupedEntities.isNotEmpty()) {
+                    groupedEntities.forEach { (extensionName, modelList) ->
                         mapModels(extensionName, modelList)
                     }
+                } else {
+                    modifyCurrentListAndSend {
+                        mergeListFromDb(emptyList())
+                    }
+                }
             } catch (e: SQLiteException) {
                 val message = "Failed to load all models"
                 logE(message = message, cause = e)
@@ -136,6 +149,7 @@ class MasterRepositoryImpl(
     private suspend inline fun modifyCurrentListAndSend(crossinline func: suspend MutableList<MasterModel>.() -> Any) {
         mutex.withLock {
             currentList.func()
+            logI(message = "sending models $currentList")
             channel.send(currentList)
         }
     }
